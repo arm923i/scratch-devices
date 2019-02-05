@@ -2,7 +2,7 @@
 
 /*
  * Gamepad API Test
- * Written in 2019 by arm923i
+ * Written in 2019 by @arm923i
 */
 
 var start;
@@ -16,7 +16,6 @@ var rAF = window.mozRequestAnimationFrame ||
 
 function connecthandler(e) {
   addgamepad(e.gamepad);
-  gameLoop();
 }
 
 function addgamepad(gamepad) {
@@ -54,40 +53,6 @@ function scangamepads() {
   }
 }
 
-function gameLoop() {
-
-  if(navigator.webkitGetGamepads) {
-    
-    var gp = gamepads;
-    if(gp.buttons[0] == 1) {
-        b--;
-      } else if(gp.buttons[1] == 1) {
-        a++;
-      } else if(gp.buttons[2] == 1) {
-        b++;
-      } else if(gp.buttons[3] == 1) {
-        a--;
-      }
-    } else {
-
-      var gp = gamepads;
-      if(gp.buttons[0].value > 0 || gp.buttons[0].pressed == true) {
-        b--;
-      } else if(gp.buttons[1].value > 0 || gp.buttons[1].pressed == true) {
-        a++;
-      } else if(gp.buttons[2].value > 0 || gp.buttons[2].pressed == true) {
-        b++;
-      } else if(gp.buttons[3].value > 0 || gp.buttons[3].pressed == true) {
-        a--;
-      }
-    }
-
-  ball.style.left = a*2 + "px";
-  ball.style.top = b*2 + "px";
-
-  var start = rAF(gameLoop);
-};
-
 if (haveEvents) {
   window.addEventListener("gamepadconnected", connecthandler);
   window.addEventListener("gamepaddisconnected", disconnecthandler);
@@ -98,11 +63,6 @@ if (haveEvents) {
   setInterval(scangamepads, 500);
 }
 
-
-
-
-
-
   // Cleanup function when the extension is unloaded
   ext._shutdown = function() {};
 
@@ -112,25 +72,56 @@ if (haveEvents) {
     return {status: 2, msg: 'Ready'};
   };
 
+      ext._getStatus = function() {
+        return {status: 2, msg: 'Ready'};
+      };
 
+      // ext.whenButtonPress = function() {
+        
+      //   if(navigator.webkitGetGamepads) {
+
+      //     var gp = gamepads;
+      //     if(gp.buttons[0] == 1) {
+      //         b--;
+      //       } else if(gp.buttons[1] == 1) {
+      //         a++;
+      //       } else if(gp.buttons[2] == 1) {
+      //         b++;
+      //       } else if(gp.buttons[3] == 1) {
+      //         a--;
+      //       }
+      //     } else {
+
+      //       var gp = gamepads;
+      //       if(gp.buttons[0].value > 0 || gp.buttons[0].pressed == true) {
+      //         b--;
+      //       } else if(gp.buttons[1].value > 0 || gp.buttons[1].pressed == true) {
+      //         a++;
+      //       } else if(gp.buttons[2].value > 0 || gp.buttons[2].pressed == true) {
+      //         b++;
+      //       } else if(gp.buttons[3].value > 0 || gp.buttons[3].pressed == true) {
+      //         a--;
+      //       }
+      //     }
+      // };
 
   // Block and block menu descriptions
-  var descriptor = {
+
+    var descriptor = {
     blocks: [
-      ['R', '%m.reporterData in %s', 'getWeather', 'temperature', 'Boston, MA'],
-      ['h', 'when %m.eventData in %s is %m.ops %n', 'whenWeather', 'temperature', 'Boston, MA', '>', 80],
-      [' ', 'set units to %m.units', 'setUnits', 'imperial'],
-      ['r', 'unit format', 'getUnits']
-    ],
+      ['h', 'when %m.btns pressed', 'whenButtonPress', 'btn1'],
+      ['-'],
+      ['h', 'when %m.axes move', 'whenAxesPress', 'axes1'],
+    ],  
     menus: {
-      reporterData: ['temperature', 'weather', 'humidity', 'wind speed', 'cloudiness'],
-      eventData: ['temperature', 'humidity', 'wind speed', 'cloudiness'],
-      ops: ['>','=', '<'],
-      units: ['imperial', 'metric']
-    }
+      btns: ['btn1', 'btn2', 'btn3', 'btn4'],
+      axes: ['axes1', 'axes2'],
+    
+    },  
+    url: 'https://arm923i.github.io/gamepad-scratch-extension/'
   };
 
   // Register the extension
-  ScratchExtensions.register('Weather extension', descriptor, ext);
+  ScratchExtensions.register('Gamepad extension', descriptor, ext);
 
 })({});
