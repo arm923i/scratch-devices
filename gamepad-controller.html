@@ -8,19 +8,22 @@
 
 <script type="text/javascript">
 
-var gamepad_count = 0;
-function pollGamepads() {
-  var gamepads = navigator.getGamepads();
-  if (gamepads.length != gamepad_count) {
-    gamepad_count = gamepads.length;
-    for (var i = 0; i < gamepads.length; i++) {
-      console.log("Gamepad %d: %s. %d buttons, %d axes",
-        i, gamepads[i].id,
-        gamepads[i].buttons.length, gamepads[i].axes.length);
+function runAnimation()
+{
+    window.requestAnimationFrame(runAnimation);
+
+    var gamepads = navigator.getGamepads();
+
+    for (var i = 0; i < gamepads.length; ++i)
+    {
+        var pad = gamepads[i];
+        console.log(gamepads[i]);
     }
-  }
 }
-setInterval(pollGamepads, 100);
+
+window.requestAnimationFrame(runAnimation);
+
+
 
 </script>
 
