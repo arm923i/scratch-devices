@@ -3,7 +3,7 @@
     ext._shutdown = function() {
       controller = null;
       connected = false;
-    };
+    };  
 
     // Status reporting code
     // Use this to report missing hardware, plugin or unsupported browser
