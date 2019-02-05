@@ -8,7 +8,7 @@
     function updateStatus() {
       window.webkitRequestAnimationFrame(updateStatus);
 
-      var gamepads = navigator.webkitGetGamepads();
+      var gamepads = navigator.GetGamepads();
 
       var data = '';
       for (var padindex = 0; padindex < gamepads.length; ++padindex) {
@@ -28,7 +28,7 @@
       document.body.innerHTML = data;
     }
 
-    window.webkitRequestAnimationFrame(updateStatus);
+    window.RequestAnimationFrame(updateStatus);
   </script>
 
 </body>
