@@ -1,11 +1,17 @@
 (function(ext) {
     // Cleanup  function when the extension is unloaded
-    ext._shutdown = function() {};
+    ext._shutdown = function() {
+      controller = null;
+      connected = false;
+    };
 
     // Status reporting code
     // Use this to report missing hardware, plugin or unsupported browser
-    ext._getStatus = function() {
-        return {status: 2, msg: 'Ready'};
+     ext._getStatus = function() {
+      if (!connected)
+        return { status:1, msg:'Disconnected' };
+      else
+        return { status:2, msg:'Connected' };
     };
 
     ext.get_temp = function(location) {
@@ -24,8 +30,11 @@
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
-            ['R', 'current temperature in city %s', 'get_temp', 'Odessa'],
+            ['R', 'current temperature in city %m.city', 'get_temp', 'Odessa'],
         ],
+        menus: {
+            city: ['Odessa', 'Kherson']
+        },  
          url: 'http://arm923i.github.io/gamepad-scratch-extension/'
     };
 
