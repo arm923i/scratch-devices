@@ -24,8 +24,9 @@
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
-            ['R', 'current temperature in city %s', 'get_temp', 'Odessa'],
-        ]
+            ['r', 'current temperature in city %s', 'get_temp', 'Odessa'],
+        ],
+         url: 'http://arm923i.github.io/gamepad-scratch-extension/'
     };
 
     // Register the extension
