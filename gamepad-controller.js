@@ -29,10 +29,12 @@
     buttonMenu.push(name);
     buttonNames[name] = index;
   });
+  
+  var controllers = {};
 
   ext.gamepadSupport = (!!navigator.getGamepads ||
                         !!navigator.gamepads);
-  ext.gamepad = null;
+  // ext.gamepad = null;
 
   ext.stickDirection = {left: 90, right: 90};
 
@@ -41,15 +43,28 @@
                    navigator.getGamepads()[0]);
     window.requestAnimationFrame(ext.tick);
   };
+  
   if (ext.gamepadSupport) window.requestAnimationFrame(ext.tick);
+
+
+  function scangamepads() {
+    var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
+    for (var i = 0; i < gamepads.length; i++) {
+      if (gamepads[i]) {
+        if (!(gamepads[i].index in controllers)) {
+          controllers[gamepad.index] = gamepads[i];
+        } else {
+          controllers[gamepads[i].index] = gamepads[i];
+        }
+      }
+    }
+  }
+  
+  ext.gamepad = controllers[0];
 
   ext._shutdown = function() {};
 
   ext._getStatus = function() {
-    if (!ext.gamepadSupport) return {
-      status: 1,
-      msg: "Please use a recent version of Google Chrome",
-    };
 
     if (!ext.gamepad) return {
       status: 1,
