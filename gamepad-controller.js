@@ -1,127 +1,113 @@
 (function(ext) {
 
-/*
- * Gamepad API Test
- * Written in 2019 by @arm923i
-*/
+  var DEADZONE = 8000 / 32767;
 
-var start;
+  var buttons = [
+    ["left top", 4],
+    ["left bottom", 6],
+    ["right top", 5],
+    ["right bottom", 7],
+    ["left stick", 10],
+    ["right stick", 11],
+    ["A", 0],
+    ["B", 1],
+    ["X", 2],
+    ["Y", 3],
+    ["select", 8],
+    ["start", 9],
+    ["up", 12],
+    ["down", 13],
+    ["left", 14],
+    ["right", 15],
+  ];
 
-var haveEvents = 'GamepadEvent' in window;
-var haveWebkitEvents = 'WebKitGamepadEvent' in window;
-var controllers = {};
-var rAF = window.mozRequestAnimationFrame ||
-  window.webkitRequestAnimationFrame ||
-  window.requestAnimationFrame;
+  var buttonMenu = [];
+  var buttonNames = {};
+  buttons.forEach(function(d) {
+    var name = d[0],
+        index = d[1];
+    buttonMenu.push(name);
+    buttonNames[name] = index;
+  });
 
-function connecthandler(e) {
-  addgamepad(e.gamepad);
-}
+  ext.gamepadSupport = (!!navigator.getGamepads ||
+                        !!navigator.gamepads);
+  ext.gamepad = null;
 
-function addgamepad(gamepad) {
-  controllers[gamepad.index] = gamepad; 
-  rAF(updateStatus);
-}
+  ext.stickDirection = {left: 90, right: 90};
 
-function disconnecthandler(e) {
-  removegamepad(e.gamepad);
-  rAFStop(start);
-}
+  ext.tick = function() {
+    ext.gamepad = (navigator.getGamepads &&
+                   navigator.getGamepads()[0]);
+    window.requestAnimationFrame(ext.tick);
+  };
+  if (ext.gamepadSupport) window.requestAnimationFrame(ext.tick);
 
-function removegamepad(gamepad) {
-  delete controllers[gamepad.index];
-}
-
-function updateStatus() {
-  scangamepads();
-  for (j in controllers) {
-    var controller = controllers[j];
-  }
-  rAF(updateStatus);
-}
-
-function scangamepads() {
-  var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
-  for (var i = 0; i < gamepads.length; i++) {
-    if (gamepads[i]) {
-      if (!(gamepads[i].index in controllers)) {
-        addgamepad(gamepads[i]);
-      } else {
-        controllers[gamepads[i].index] = gamepads[i];
-      }
-    }
-  }
-}
-
-if (haveEvents) {
-  window.addEventListener("gamepadconnected", connecthandler);
-  window.addEventListener("gamepaddisconnected", disconnecthandler);
-} else if (haveWebkitEvents) {
-  window.addEventListener("webkitgamepadconnected", connecthandler);
-  window.addEventListener("webkitgamepaddisconnected", disconnecthandler);
-} else {
-  setInterval(scangamepads, 500);
-}
-
-  // Cleanup function when the extension is unloaded
   ext._shutdown = function() {};
 
-  // Status reporting code
-  // Use this to report missing hardware, plugin or unsupported browser
   ext._getStatus = function() {
-    return {status: 2, msg: 'Ready'};
+    if (!ext.gamepadSupport) return {
+      status: 1,
+      msg: "Please use a recent version of Google Chrome",
+    };
+
+    if (!ext.gamepad) return {
+      status: 1,
+      msg: "Please plug in a gamepad and press any button",
+    };
+
+    return {
+      status: 2,
+      msg: "Good to go!",
+    };
   };
 
-      ext._getStatus = function() {
-        return {status: 2, msg: 'Ready'};
-      };
+  ext.installed = function() {
+    return true;
+  }
 
-      // ext.whenButtonPress = function() {
-        
-      //   if(navigator.webkitGetGamepads) {
+  ext.getButton = function(name) {
+    var index = buttonNames[name];
+    var button = ext.gamepad.buttons[index];
+    return button.pressed;
+  };
 
-      //     var gp = gamepads;
-      //     if(gp.buttons[0] == 1) {
-      //         b--;
-      //       } else if(gp.buttons[1] == 1) {
-      //         a++;
-      //       } else if(gp.buttons[2] == 1) {
-      //         b++;
-      //       } else if(gp.buttons[3] == 1) {
-      //         a--;
-      //       }
-      //     } else {
+  ext.getStick = function(what, stick) {
+    var x, y;
+    switch (stick) {
+      case "left":  x = ext.gamepad.axes[0]; y = -ext.gamepad.axes[1]; break;
+      case "right": x = ext.gamepad.axes[2]; y = -ext.gamepad.axes[3]; break;
+    }
+    if (-DEADZONE < x && x < DEADZONE) x = 0;
+    if (-DEADZONE < y && y < DEADZONE) y = 0;
 
-      //       var gp = gamepads;
-      //       if(gp.buttons[0].value > 0 || gp.buttons[0].pressed == true) {
-      //         b--;
-      //       } else if(gp.buttons[1].value > 0 || gp.buttons[1].pressed == true) {
-      //         a++;
-      //       } else if(gp.buttons[2].value > 0 || gp.buttons[2].pressed == true) {
-      //         b++;
-      //       } else if(gp.buttons[3].value > 0 || gp.buttons[3].pressed == true) {
-      //         a--;
-      //       }
-      //     }
-      // };
+    switch (what) {
+      case "direction":
+        if (x === 0 && y === 0) {
+          // report the stick's previous direction
+          return ext.stickDirection[stick];
+        }
+        var value = 180 * Math.atan2(x, y) / Math.PI;
+        ext.stickDirection[stick] = value;
+        return value;
+      case "force":
+        return Math.sqrt(x*x + y*y) * 100;
+    }
+  };
 
-  // Block and block menu descriptions
-
-    var descriptor = {
+  var descriptor = {
     blocks: [
-      ['h', 'when %m.btns pressed', 'whenButtonPress', 'btn1'],
-      ['-'],
-      ['h', 'when %m.axes move', 'whenAxesPress', 'axes1'],
-    ],  
+      ["b", "Gamepad Extension installed?", "installed"],
+      ["b", "button %m.button pressed?", "getButton", "X"],
+      ["r", "%m.axisValue of %m.stick stick", "getStick", "direction", "left"],
+    ],
     menus: {
-      btns: ['btn1', 'btn2', 'btn3', 'btn4'],
-      axes: ['axes1', 'axes2'],
-    
-    },  
-    url: 'https://arm923i.github.io/gamepad-scratch-extension/'
+      button: buttonMenu,
+      stick: ["left", "right"],
+      axisValue: ["direction", "force"],
+    },
   };
 
-  // Register the extension
-  ScratchExtensions.register('Gamepad extension', descriptor, ext);
+  ScratchExtensions.register("Gamepad", descriptor, ext);
 
 })({});
