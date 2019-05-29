@@ -96,7 +96,7 @@
         ext.stickDirection[stick] = value;
         return value;
       case "force":
-        return x*100;
+        return x*360;
     }
   };
 
