@@ -80,7 +80,7 @@
   ext.getStick = function(what, stick) {
     var x, y;
     switch (stick) {
-      case "left":  x = ext.gamepad.axes[0]; y = -ext.gamepad.axes[1]; break;
+      case "left":  x = ext.gamepad.axes[0]; y = -ext.gamepad.axes[0]; break;
       case "right": x = ext.gamepad.axes[2]; y = -ext.gamepad.axes[3]; break;
     }
     if (-DEADZONE < x && x < DEADZONE) x = 0;
@@ -96,7 +96,7 @@
         ext.stickDirection[stick] = value;
         return value;
       case "force":
-        return Math.sqrt(x*x + y*y) * 100;
+        return x*100;
     }
   };
 
