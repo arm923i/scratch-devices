@@ -1,3 +1,8 @@
+/*
+  * Scratch GamePad Controller Extension
+  © 2019 developed by @arm923i
+*/
+
 (function(ext) {
 
   var DEADZONE = 8000 / 32767;
