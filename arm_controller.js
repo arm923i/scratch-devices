@@ -1,6 +1,6 @@
 /*
-    Scratch GamePad Conteroller Extension
-    Developed by @arm923i
+    *Scratch GamePad Conteroller Extension
+    *Developed by @arm923i
 */
 
 (function(ext) {
