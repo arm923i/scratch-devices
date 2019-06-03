@@ -7,7 +7,7 @@
 
 (function(ext) {
 
-  var DEADZONE = 8000 / 32767;
+  /* var DEADZONE = 8000 / 32767;  */
 
   var buttons = [
 	["A", 0],
@@ -73,18 +73,24 @@
     return button.pressed;
   };
 
-  ext.getStick = function(what, stick) {
-    var x, y;
+  ext.getStick = function(stick) {
+    var x;
     switch (stick) {
-      case "wheel":  x = ext.gamepad.axes[0]; y = -ext.gamepad.axes[0]; break;
-      case "forward pedal": x = -ext.gamepad.axes[1]; y = -ext.gamepad.axes[1]; break;
-	  case "backwards pedal": x = -ext.gamepad.axes[1]; y = -ext.gamepad.axes[1]; break;
+      case "wheel":  
+			x = ext.gamepad.axes[0]; 
+			return x*100;		
+      case "forward pedal": 
+			x = -ext.gamepad.axes[1]; 
+			return x*10;
+	  case "backwards pedal": 
+			x = -ext.gamepad.axes[1];
+			return x*10;
     }
-    if (-DEADZONE < x && x < DEADZONE) x = 0;
-    if (-DEADZONE < y && y < DEADZONE) y = 0;
-
-    switch (what) {
-      case "direction":
+    /* 
+		if (-DEADZONE < x && x < DEADZONE) x = 0;
+		if (-DEADZONE < y && y < DEADZONE) y = 0;
+		
+		case "direction":
         if (x === 0 && y === 0) {
           // report the stick's previous direction
           return ext.stickDirection[stick];
@@ -92,21 +98,20 @@
         var value = 180 * Math.atan2(x, y) / Math.PI;
         ext.stickDirection[stick] = value;
         return value;
-      case "force":
-        return x*110;
-    }
+		case "force": 
+	*/
   };
 
   var descriptor = {
     blocks: [
       ["b", "Extension installed?", "installed"],
       ["b", "button %m.button pressed?", "getButton", "X"],
-      ["r", "%m.axisValue of %m.stick stick", "getStick", "direction", "left"],
+      ["r", "wheel direction", "getStick", "wheel"],
+	  ["r", "%m.stick stick direction", "getStick", "forward pedal"],
     ],
     menus: {
       button: buttonMenu,
-      stick: ["wheel", "forward pedal","backwards pedal"],
-      axisValue: ["direction", "force"],
+      stick: ["forward pedal","backwards pedal"],
     },
   };
 
