@@ -1,6 +1,8 @@
 /*
-  * Scratch GamePad Controller Extension
-  © 2019 developed by @arm923i
+  *	GamePad Controller Extension for USB 12-Button Wheel 
+  *	in the tool environment Scratch, written in JavaScript language
+  * by @arm923i https://t.me/arm923i
+  * © 2019
 */
 
 (function(ext) {
@@ -102,7 +104,7 @@
 
   var descriptor = {
     blocks: [
-      ["b", "Gamepad Extension installed?", "installed"],
+      ["b", "USB 12-Button Wheel Extension installed?", "installed"],
       ["b", "button %m.button pressed?", "getButton", "X"],
       ["r", "%m.axisValue of %m.stick stick", "getStick", "direction", "left"],
     ],
@@ -113,6 +115,6 @@
     },
   };
 
-  ScratchExtensions.register("Gamepad", descriptor, ext);
+  ScratchExtensions.register("USB 12-Button Wheel", descriptor, ext);
 
 })({});
