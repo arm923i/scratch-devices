@@ -71,6 +71,13 @@
     var button = ext.gamepad.buttons[index];
     return button.pressed;
   };
+  
+  ext.getClick = function(name) {
+    var index = buttonNames[name];
+    var button = ext.gamepad.buttons[index];
+    return button.pressed;
+	break;
+  };
 
   ext.getStick = function(stick) {
     var x;
@@ -87,7 +94,8 @@
   var descriptor = {
     blocks: [
       ["b", "Extension installed?", "installed"],
-      ["b", "button %m.button pressed?", "getButton", "X"],
+      ["b", "button %m.button pressed ?", "getButton", "X"],
+	  ["b", "button %m.button click ?", "getClick", "X"],
       ["r", "%m.stick direction", "getStick", "wheel"],
     ],
     menus: {
