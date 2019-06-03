@@ -78,7 +78,8 @@
 	var arm = button.pressed;
 	if ( arm == true )
 		return true;
-	
+	if ( arm == false )
+		return false;
   };
 
   ext.getStick = function(stick) {
