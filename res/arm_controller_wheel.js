@@ -79,7 +79,7 @@
       case "pedal": x = -ext.gamepad.axes[1]; break;
     }
 	switch (stick) {
-      case "wheel": return x*110;			
+      case "wheel": return x*90+90;			
       case "pedal": return x*10;
     }
   };
