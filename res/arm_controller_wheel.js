@@ -72,11 +72,13 @@
     return button.pressed;
   };
   
-  ext.getClick = function(name) {
+  ext.getClick = function(name) {		
     var index = buttonNames[name];
     var button = ext.gamepad.buttons[index];
-    return button.pressed;
-	break;
+	var arm = button.pressed;
+	if ( arm == true )
+		return true;
+	
   };
 
   ext.getStick = function(stick) {
