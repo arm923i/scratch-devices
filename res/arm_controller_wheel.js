@@ -78,10 +78,17 @@
     switch (stick) {
       case "wheel":  
 			x = ext.gamepad.axes[0]; 
+			break;	
+			
+      case "pedal": 
+			x = ext.gamepad.axes[1]; 
+			break;
+    }
+	switch (stick) {
+      case "wheel":  
 			return x*110;	
 			
       case "pedal": 
-			x = -ext.gamepad.axes[1]; 
 			return x*10;
     }
     /* 
@@ -104,12 +111,11 @@
     blocks: [
       ["b", "Extension installed?", "installed"],
       ["b", "button %m.button pressed?", "getButton", "X"],
-      ["r", "wheel direction", "getStick", "wheel"],
-	  ["r", "pedal direction", "getStick", "pedal"],
+      ["r", "%m.stick direction", "getStick", "wheel"],
     ],
     menus: {
       button: buttonMenu,
-      /* stick: ["forward pedal","backwards pedal"], */
+      stick: ["wheel","pedal"],
     },
   };
 
