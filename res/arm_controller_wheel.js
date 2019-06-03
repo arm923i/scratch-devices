@@ -10,22 +10,16 @@
   var DEADZONE = 8000 / 32767;
 
   var buttons = [
-    ["left top", 4],
-    ["left bottom", 6],
-    ["right top", 5],
-    ["right bottom", 7],
-    ["left stick", 10],
-    ["right stick", 11],
-    ["A", 0],
+	["A", 0],
     ["B", 1],
     ["X", 2],
     ["Y", 3],
+    ["left petal", 4],
+    ["right petal", 5],
+	["left bottom", 6],
+    ["right bottom", 7],
     ["select", 8],
     ["start", 9],
-    ["up", 12],
-    ["down", 13],
-    ["left", 14],
-    ["right", 15],
   ];
 
   var buttonMenu = [];
@@ -82,8 +76,9 @@
   ext.getStick = function(what, stick) {
     var x, y;
     switch (stick) {
-      case "left":  x = ext.gamepad.axes[0]; y = -ext.gamepad.axes[0]; break;
-      case "right": x = ext.gamepad.axes[2]; y = -ext.gamepad.axes[3]; break;
+      case "wheel":  x = ext.gamepad.axes[0]; y = -ext.gamepad.axes[0]; break;
+      case "forward pedal": x = -ext.gamepad.axes[1]; y = -ext.gamepad.axes[1]; break;
+	  case "backwards pedal": x = -ext.gamepad.axes[1]; y = -ext.gamepad.axes[1]; break;
     }
     if (-DEADZONE < x && x < DEADZONE) x = 0;
     if (-DEADZONE < y && y < DEADZONE) y = 0;
@@ -104,13 +99,13 @@
 
   var descriptor = {
     blocks: [
-      ["b", "USB 12-Button Wheel Extension installed?", "installed"],
+      ["b", "Extension installed?", "installed"],
       ["b", "button %m.button pressed?", "getButton", "X"],
       ["r", "%m.axisValue of %m.stick stick", "getStick", "direction", "left"],
     ],
     menus: {
       button: buttonMenu,
-      stick: ["left", "right"],
+      stick: ["wheel", "forward pedal","backwards pedal"],
       axisValue: ["direction", "force"],
     },
   };
