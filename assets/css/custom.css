@@ -6,5 +6,5 @@ body {
 	max-width:445px;
 	max-height:445px;
 	object-fit: cover;
-	object-position: 0 0;
+	object-position: right;
 }
