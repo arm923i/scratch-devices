@@ -1,3 +1,10 @@
 body {
 	font-family: Segoe UI, sans-serif;
 }
+
+.arm_img_featurette{
+	max-width:500px;
+	max-height:500px;
+	object-fit: cover;
+	object-position: 0 0;
+}
