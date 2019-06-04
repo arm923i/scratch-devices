@@ -70,8 +70,8 @@
   ext.getStick = function(stick) {
     var x;
     switch (stick) {
-      case "wheel": x = ext.gamepad.axes[0]; x.toFixed(2); break;			
-      case "pedals": x = -ext.gamepad.axes[1]; x.toFixed(2); break;
+      case "wheel": x = ext.gamepad.axes[0]; x = x.toFixed(2); break;			
+      case "pedals": x = -ext.gamepad.axes[1]; x = x.toFixed(2); break;
     }
 	switch (stick) {
       case "wheel": return x*90+90;			
