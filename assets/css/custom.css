@@ -3,8 +3,8 @@ body {
 }
 
 .arm_img_featurette{
-	max-width:445px;
-	max-height:445px;
+	max-width:350px;
+	max-height:350px;
 	object-fit: cover;
 	object-position: right;
 }
