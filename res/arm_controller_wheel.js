@@ -61,7 +61,7 @@
     return true;
   }
 
-  ext.getPress = function(name) {
+  ext.getButton = function(name) {
     var index = buttonNames[name];
     var button = ext.gamepad.buttons[index];
     return button.pressed;
@@ -70,8 +70,8 @@
   ext.getStick = function(stick) {
     var x;
     switch (stick) {
-      case "wheel": x = ext.gamepad.axes[0].toFixed(2); break;			
-      case "pedals": x = -ext.gamepad.axes[1].toFixed(2); break;
+      case "wheel": x = ext.gamepad.axes[0]; x.toFixed(2); break;			
+      case "pedals": x = -ext.gamepad.axes[1]; x.toFixed(2); break;
     }
 	switch (stick) {
       case "wheel": return x*90+90;			
@@ -82,7 +82,7 @@
   var descriptor = {
     blocks: [
       ["b", "modules installed?", "installed"],
-      ["b", "button %m.button pressed", "getPress", "X"],
+      ["b", "button %m.button pressed", "getButton", "X"],
       ["r", "%m.stick direction", "getStick", "wheel"],
     ],
     menus: {
