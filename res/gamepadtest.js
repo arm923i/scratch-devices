@@ -86,7 +86,7 @@ function updateStatus() {
     var axes = d.getElementsByClassName("axis");
     for (var i=0; i<controller.axes.length; i++) {
       var a = axes[i];
-      a.innerHTML = i + ": " + controller.axes[i].toFixed(4);
+      a.innerHTML = i + ": " + controller.axes[i].toFixed(2);
       a.setAttribute("value", controller.axes[i]);
     }
   }
