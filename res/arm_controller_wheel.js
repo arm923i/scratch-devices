@@ -1,13 +1,10 @@
 /*
-  *	GamePad Controller Extension for USB 12-Button Wheel 
+  *	GamePad Controller Extension for USB 12-Button Wheel GamePad
   *	in the tool environment Scratch, written in JavaScript language
-  * by @arm923i https://t.me/arm923i
-  * © 2019
+  * © 2019 by @arm923i https://t.me/arm923i
 */
 
 (function(ext) {
-
-  /* var DEADZONE = 8000 / 32767;  */
 
   var buttons = [
 	["A", 0],
@@ -36,8 +33,6 @@
  
   ext.gamepad = null;
 
-  ext.stickDirection = {left: 90, right: 90};
-
   ext.tick = function() {
     ext.gamepad = (navigator.getGamepads && navigator.getGamepads()[0]);
     window.requestAnimationFrame(ext.tick);
@@ -50,11 +45,11 @@
   ext._getStatus = function() {
     if (!ext.gamepadSupport) return {
       status: 1,
-      msg: "Please use a recent version of Google Chrome",
+      msg: "GamePad not supported",
     };
     if (!ext.gamepad) return {
       status: 1,
-      msg: "Please plug in a gamepad and press any button",
+      msg: "Plug in a wheel gamepad and press any button",
     };
     return {
       status: 2,
@@ -66,47 +61,36 @@
     return true;
   }
 
-  ext.getButton = function(name) {
+  ext.getPress = function(name) {
     var index = buttonNames[name];
     var button = ext.gamepad.buttons[index];
     return button.pressed;
-  };
-  
-  ext.getClick = function(name) {		
-    var index = buttonNames[name];
-    var button = ext.gamepad.buttons[index];
-	var arm = button.pressed;
-	if ( arm == true )
-		return true;
-	if ( arm == false )
-		return false;
   };
 
   ext.getStick = function(stick) {
     var x;
     switch (stick) {
-      case "wheel": x = ext.gamepad.axes[0]; break;			
-      case "pedal": x = -ext.gamepad.axes[1]; break;
+      case "wheel": x = ext.gamepad.axes[0].toFixed(2); break;			
+      case "pedals": x = -ext.gamepad.axes[1].toFixed(2); break;
     }
 	switch (stick) {
       case "wheel": return x*90+90;			
-      case "pedal": return x*10;
+      case "pedals": return x*10;
     }
   };
 
   var descriptor = {
     blocks: [
-      ["b", "Extension installed?", "installed"],
-      ["b", "button %m.button pressed ?", "getButton", "X"],
-	  ["b", "button %m.button click ?", "getClick", "X"],
+      ["b", "modules installed?", "installed"],
+      ["b", "button %m.button pressed", "getPress", "X"],
       ["r", "%m.stick direction", "getStick", "wheel"],
     ],
     menus: {
       button: buttonMenu,
-      stick: ["wheel","pedal"],
+      stick: ["wheel","pedals"],
     },
   };
 
-  ScratchExtensions.register("USB 12-Button Wheel", descriptor, ext);
+  ScratchExtensions.register("Wheel GamePad", descriptor, ext);
 
 })({});
