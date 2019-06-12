@@ -7,13 +7,13 @@
 (function(ext) {
 
   var buttons = [
-	["A", 0],
+    ["A", 0],
     ["B", 1],
     ["X", 2],
     ["Y", 3],
     ["left petal", 4],
     ["right petal", 5],
-	["left bottom", 6],
+    ["left bottom", 6],
     ["right bottom", 7],
     ["select", 8],
     ["start", 9],
