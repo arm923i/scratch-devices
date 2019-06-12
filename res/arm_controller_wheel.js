@@ -74,8 +74,8 @@
       case "pedals": x = -ext.gamepad.axes[1]; break;
     }
 	switch (stick) {
-      case "wheel": return x.toFixed(2)*90+90;			
-      case "pedals": return x.toFixed(2)*10;
+      case "wheel": return x.toFixed(2)*90+100;			
+      case "pedals": return x.toFixed(2)*5;
     }
   };
 
