@@ -34,7 +34,7 @@
   ext.gamepad = null;
 
   ext.tick = function() {
-    ext.gamepad = (navigator.getGamepads && navigator.getGamepads()[0]);
+    ext.gamepad = (navigator.getGamepads && navigator.getGamepads()[1]);
     window.requestAnimationFrame(ext.tick);
   };
   
