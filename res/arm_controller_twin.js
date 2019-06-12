@@ -33,8 +33,11 @@
  
   ext.gamepad = null;
 
+  ext.gamepad_2 = null;
+
   ext.tick = function() {
-    ext.gamepad = (navigator.getGamepads && navigator.getGamepads()[1]);
+    ext.gamepad = (navigator.getGamepads && navigator.getGamepads()[0]);
+    ext.gamepad_2 = (navigator.getGamepads && navigator.getGamepads()[1]);
     window.requestAnimationFrame(ext.tick);
   };
   
@@ -49,7 +52,11 @@
     };
     if (!ext.gamepad) return {
       status: 1,
-      msg: "Plug in a wheel gamepad and press any button",
+      msg: "Plug in a first gamepad and press any button",
+    };
+    if (!ext.gamepad_2) return {
+      status: 1,
+      msg: "Plug in a second gamepad and press any button",
     };
     return {
       status: 2,
@@ -64,6 +71,12 @@
   ext.getButton = function(name) {
     var index = buttonNames[name];
     var button = ext.gamepad.buttons[index];
+    return button.pressed;
+  };
+
+  ext.getButton_2 = function(name) {
+    var index = buttonNames[name];
+    var button = ext.gamepad_2.buttons[index];
     return button.pressed;
   };
 
@@ -82,8 +95,10 @@
   var descriptor = {
     blocks: [
       ["b", "modules installed?", "installed"],
-      ["b", "button %m.button pressed", "getButton", "X"],
-      ["r", "%m.stick direction", "getStick", "wheel"],
+      ["b", "gamepad #1 button %m.button pressed", "getButton", "X"],
+      ["b", "gamepad #2 button %m.button pressed", "getButton_2", "X"],
+      ["r", "gamepad #1 %m.stick direction", "getStick", "wheel"],
+      ["r", "gamepad #2 %m.stick direction", "getStick", "wheel"],
     ],
     menus: {
       button: buttonMenu,
