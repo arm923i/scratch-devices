@@ -124,10 +124,10 @@
   var descriptor = {
     blocks: [
       ["b", "modules installed?", "installed"],
-      ["b", "gamepad #1 button %m.button pressed", "getButton", "X"],
-      ["b", "gamepad #2 button %m.button pressed", "getButton_2", "X"],
-      ["r", "gamepad #1 %m.axisValue of %m.stick stick", "getStick_1", "direction", "left"],
-      ["r", "gamepad #2 %m.axisValue of %m.stick stick", "getStick_2", "direction", "left"],
+      ["b", "gp#1 button %m.button pressed", "getButton", "X"],
+      ["b", "gp#2 button %m.button pressed", "getButton_2", "X"],
+      ["r", "gp#1 %m.axisValue of %m.stick stick", "getStick_1", "direction", "left"],
+      ["r", "gp#2 %m.axisValue of %m.stick stick", "getStick_2", "direction", "left"],
     ],
     menus: {
       button: buttonList,
