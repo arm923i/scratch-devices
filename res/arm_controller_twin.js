@@ -96,7 +96,7 @@
         if (x === 0 && y === 0) {
           return ext.stickDirection_1[stick];
         }
-        var value = 180 * Math.atan2(x, y) / Math.PI;
+        var value = (180 * Math.atan2(x, y) / Math.PI) + 135;
         ext.stickDirection_1[stick] = value;
         return value;
       case "forceX":
@@ -117,7 +117,7 @@
         if (x === 0 && y === 0) {
           return ext.stickDirection_2[stick];
         }
-        var value = 180 * Math.atan2(x, y) / Math.PI;
+        var value = (180 * Math.atan2(x, y) / Math.PI) + 135;
         ext.stickDirection_2[stick] = value;
         return value;
       case "forceX":
