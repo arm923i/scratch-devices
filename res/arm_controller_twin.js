@@ -1,11 +1,11 @@
 /*
- *  GamePad Controller Extension for USB Twin GamePad
- *  in the tool environment Scratch, written in JavaScript language
- * © 2019 by @arm923i https://t.me/arm923i
- */
+  *  GamePad Controller Extension for USB Twin GamePad
+  *  in the tool environment Scratch, written in JavaScript language
+  *  © 2019 by @arm923i https://t.me/arm923i
+*/
+
 (function(ext) {
 
-  var DEADZONE = 8000 / 32767;
   var buttons = [
     ["A", 0],
     ["B", 1],
@@ -20,24 +20,26 @@
     ["left stick", 10],
     ["right stick", 11],
   ];
-  var buttonMenu = [];
+
+  var buttonList = [];
   var buttonNames = {};
+
   buttons.forEach(function(d) {
-    var name = d[0],
-      index = d[1];
-    buttonMenu.push(name);
+    var name = d[0], index = d[1];
+    buttonList.push(name);
     buttonNames[name] = index;
   });
 
   ext.gamepadSupport = (!!navigator.getGamepads || !!navigator.gamepads);
 
-  ext.gamepad = null;
+  ext.gamepad = null; 
+
   ext.gamepad_2 = null;
 
   ext.stickDirection = {left: 90, right: 90};
 
   ext.tick = function() {
-    ext.gamepad = (navigator.getGamepads && navigator.getGamepads()[0]);
+    ext.gamepad   = (navigator.getGamepads && navigator.getGamepads()[0]);
     ext.gamepad_2 = (navigator.getGamepads && navigator.getGamepads()[1]);
     window.requestAnimationFrame(ext.tick);
   };
@@ -45,6 +47,7 @@
   if (ext.gamepadSupport) window.requestAnimationFrame(ext.tick);
 
   ext._shutdown = function() {};
+
   ext._getStatus = function() {
     if (!ext.gamepadSupport) return {
       status: 1,
@@ -80,79 +83,44 @@
     return button.pressed;
   };
 
-  ext.getStick = function(stick) {
-    var x, y;
-    switch (stick) {
-      case "wheel":
-        x = ext.gamepad.axes[0];
-        break;
-      case "pedals":
-        x = -ext.gamepad.axes[1];
-        break;
-    }
-    switch (stick) {
-      case "wheel":
-        return x.toFixed(2) * 90 + 90;
-      case "pedals":
-        return x.toFixed(2) * 5;
-    }
-  };
-
   ext.getStick_1 = function(what, stick) {
     var x, y;
     switch (stick) {
-      case "left":
-        x = ext.gamepad_2.axes[0];
-        y = -ext.gamepad_2.axes[1];
-        break;
-      case "right":
-        x = ext.gamepad_2.axes[5];
-        y = -ext.gamepad_2.axes[2];
-        break;
+      case "left":  x = ext.gamepad_2.axes[0]; y = -ext.gamepad_2.axes[1]; break;
+      case "right": x = ext.gamepad_2.axes[5]; y = -ext.gamepad_2.axes[2]; break;
     }
-    if (-DEADZONE < x && x < DEADZONE) x = 0;
-    if (-DEADZONE < y && y < DEADZONE) y = 0;
     switch (what) {
       case "direction":
         if (x === 0 && y === 0) {
-          // report the stick's previous direction
           return ext.stickDirection[stick];
         }
         var value = 180 * Math.atan2(x, y) / Math.PI;
         ext.stickDirection[stick] = value;
         return value;
       case "force":
-        return Math.sqrt(x * x + y * y) * 100;
+        return (x+y)*10;
     }
   };
 
   ext.getStick_2 = function(what, stick) {
     var x, y;
     switch (stick) {
-      case "left":
-        x = ext.gamepad_2.axes[0];
-        y = -ext.gamepad_2.axes[1];
-        break;
-      case "right":
-        x = ext.gamepad_2.axes[5];
-        y = -ext.gamepad_2.axes[2];
-        break;
+      case "left":  x = ext.gamepad_2.axes[0]; y = -ext.gamepad_2.axes[1]; break;
+      case "right": x = ext.gamepad_2.axes[5]; y = -ext.gamepad_2.axes[2]; break;
     }
-    if (-DEADZONE < x && x < DEADZONE) x = 0;
-    if (-DEADZONE < y && y < DEADZONE) y = 0;
     switch (what) {
       case "direction":
         if (x === 0 && y === 0) {
-          // report the stick's previous direction
           return ext.stickDirection[stick];
         }
         var value = 180 * Math.atan2(x, y) / Math.PI;
         ext.stickDirection[stick] = value;
         return value;
       case "force":
-        return Math.sqrt(x * x + y * y) * 100;
+        return (x+y)*10;
     }
   };
+
   var descriptor = {
     blocks: [
       ["b", "modules installed?", "installed"],
@@ -162,10 +130,12 @@
       ["r", "gamepad #2 %m.axisValue of %m.stick stick", "getStick_2", "direction", "left"],
     ],
     menus: {
-      button: buttonMenu,
+      button: buttonList,
       stick: ["left", "right"],
       axisValue: ["direction", "force"],
     },
   };
+
   ScratchExtensions.register("Twin GamePad", descriptor, ext);
+
 })({});
