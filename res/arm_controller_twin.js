@@ -100,9 +100,9 @@
         ext.stickDirection_1[stick] = value;
         return value;
       case "forceX":
-        return x*10;
+        return x*5;
       case "forceY":
-        return y*10;
+        return y*5;
     }
   };
 
@@ -121,9 +121,9 @@
         ext.stickDirection_2[stick] = value;
         return value;
       case "forceX":
-        return x*10;
+        return x*5;
       case "forceY":
-        return y*10;
+        return y*5;
     }
   };
 
