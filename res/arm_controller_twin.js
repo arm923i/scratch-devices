@@ -99,8 +99,10 @@
         var value = 180 * Math.atan2(x, y) / Math.PI;
         ext.stickDirection_1[stick] = value;
         return value;
-      case "force":
-        return (x+(-y))*10;
+      case "forceX":
+        return x*10;
+      case "forceY":
+        return (-y)*10;
     }
   };
 
@@ -118,8 +120,10 @@
         var value = 180 * Math.atan2(x, y) / Math.PI;
         ext.stickDirection_2[stick] = value;
         return value;
-      case "force":
-        return (x+(-y))*10;
+      case "forceX":
+        return x*10;
+      case "forceY":
+        return (-y)*10;
     }
   };
 
@@ -134,7 +138,7 @@
     menus: {
       button: buttonList,
       stick: ["left", "right"],
-      axisValue: ["direction", "force"],
+      axisValue: ["direction", "forceX", "forceY"],
     },
   };
 
