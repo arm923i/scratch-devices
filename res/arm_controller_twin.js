@@ -36,7 +36,9 @@
 
   ext.gamepad_2 = null;
 
-  ext.stickDirection = {left: 90, right: 90};
+  ext.stickDirection_1 = {left: 90, right: 90};
+
+  ext.stickDirection_2 = {left: 90, right: 90};
 
   ext.tick = function() {
     ext.gamepad   = (navigator.getGamepads && navigator.getGamepads()[0]);
@@ -71,7 +73,7 @@
     return true;
   }
 
-  ext.getButton = function(name) {
+  ext.getButton_1 = function(name) {
     var index = buttonNames[name];
     var button = ext.gamepad.buttons[index];
     return button.pressed;
@@ -86,16 +88,16 @@
   ext.getStick_1 = function(what, stick) {
     var x, y;
     switch (stick) {
-      case "left":  x = ext.gamepad_2.axes[0]; y = -ext.gamepad_2.axes[1]; break;
-      case "right": x = ext.gamepad_2.axes[5]; y = -ext.gamepad_2.axes[2]; break;
+      case "left":  x = ext.gamepad.axes[0]; y = -ext.gamepad.axes[1]; break;
+      case "right": x = ext.gamepad.axes[5]; y = -ext.gamepad.axes[2]; break;
     }
     switch (what) {
       case "direction":
         if (x === 0 && y === 0) {
-          return ext.stickDirection[stick];
+          return ext.stickDirection_1[stick];
         }
         var value = 180 * Math.atan2(x, y) / Math.PI;
-        ext.stickDirection[stick] = value;
+        ext.stickDirection_1[stick] = value;
         return value;
       case "force":
         return (x+y)*10;
@@ -111,10 +113,10 @@
     switch (what) {
       case "direction":
         if (x === 0 && y === 0) {
-          return ext.stickDirection[stick];
+          return ext.stickDirection_2[stick];
         }
         var value = 180 * Math.atan2(x, y) / Math.PI;
-        ext.stickDirection[stick] = value;
+        ext.stickDirection_2[stick] = value;
         return value;
       case "force":
         return (x+y)*10;
@@ -124,7 +126,7 @@
   var descriptor = {
     blocks: [
       ["b", "modules installed?", "installed"],
-      ["b", "gp#1 button %m.button pressed", "getButton", "X"],
+      ["b", "gp#1 button %m.button pressed", "getButton_1", "X"],
       ["b", "gp#2 button %m.button pressed", "getButton_2", "X"],
       ["r", "gp#1 %m.axisValue of %m.stick stick", "getStick_1", "direction", "left"],
       ["r", "gp#2 %m.axisValue of %m.stick stick", "getStick_2", "direction", "left"],
