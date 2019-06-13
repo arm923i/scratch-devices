@@ -102,7 +102,7 @@
       case "forceX":
         return x*10;
       case "forceY":
-        return (-y)*10;
+        return y*10;
     }
   };
 
@@ -123,7 +123,7 @@
       case "forceX":
         return x*10;
       case "forceY":
-        return (-y)*10;
+        return y*10;
     }
   };
 
