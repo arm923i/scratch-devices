@@ -34,6 +34,8 @@
   ext.gamepad = null;
   ext.gamepad_2 = null;
 
+  ext.stickDirection = {left: 90, right: 90};
+
   ext.tick = function() {
     ext.gamepad = (navigator.getGamepads && navigator.getGamepads()[0]);
     ext.gamepad_2 = (navigator.getGamepads && navigator.getGamepads()[1]);
