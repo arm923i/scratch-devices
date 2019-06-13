@@ -100,7 +100,7 @@
         ext.stickDirection_1[stick] = value;
         return value;
       case "force":
-        return (x+y)*10;
+        return (x+(-y))*10;
     }
   };
 
@@ -119,7 +119,7 @@
         ext.stickDirection_2[stick] = value;
         return value;
       case "force":
-        return (x+y)*10;
+        return (x+(-y))*10;
     }
   };
 
