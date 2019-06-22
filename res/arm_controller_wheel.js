@@ -89,6 +89,7 @@
       button: buttonMenu,
       stick: ["wheel","pedals"],
     },
+    url: 'https://arm923i.github.io/scratch-devices/'
   };
 
   ScratchExtensions.register("Wheel GamePad", descriptor, ext);
