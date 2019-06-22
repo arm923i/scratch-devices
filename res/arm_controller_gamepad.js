@@ -188,11 +188,11 @@
         ],
         menus: {
             buttons: ["Y", "B", "A", "X", "LB", "RB", "LT", "RT", "SELECT", "START", "LEFT STICK", "RIGHT STICK"],
-            lr: ["Left", "Right"],
-            hv: ["Horizontal", "Vertical"],
-            hvb: ["Horizontal", "Vertical", "Both"],
-            dir: ["Up", "Down", "Left", "Right", "Up Left", "Up Right", "Down Left", "Down Right"],
-			aefe: ["Angle", "Force"]
+            lr: 	 ["Left", "Right"],
+            hv: 	 ["Horizontal", "Vertical"],
+            hvb: 	 ["Horizontal", "Vertical", "Both"],
+            dir: 	 ["Up", "Down", "Left", "Right", "Up Left", "Up Right", "Down Left", "Down Right"],
+			aefe: 	 ["Angle", "Force"]
         }
     };
 
