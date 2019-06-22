@@ -37,7 +37,11 @@
     window.addEventListener("gamepadconnected", connecthandler), window.addEventListener("gamepaddisconnected", disconnecthandler), haveEvents || setInterval(scangamepads, 1); // When the controller is detected, enable the extension
     
     ext._getStatus = function() {
-        return {
+    	if (!controllers) return {
+	      status: 1,
+	      msg: 'Connect a GamePad',
+	    };
+	    return {
             status: 2,
             msg: 'Ready'
         };
