@@ -147,7 +147,7 @@
                 return (controllers[0].axes[1] > .5 && (controllers[0].axes[0] > .5))
             }
         }
-        if (s == "Left") {
+        if (s == "Right") {
             if (dir == "Up") {
                 return (controllers[0].axes[5] < -.5)
             }
@@ -178,13 +178,13 @@
 
     var descriptor = {
         blocks: [
-            ['b', '%m.buttons is pressed?', 'ispressed', "A"],
-            ['h', 'When %m.buttons is pressed', 'ispressed', "A"],
-            ['r', '%m.lr stick %m.hv position', 'stickpos', "Left", "Horizontal"],
-            ['r', '%m.lr stick %m.hvb direction', 'stickfacing', "Left", "Both"],
-            ['b', '%m.lr stick is facing %m.dir?', 'stickis', "Left", "Up"],
-            ['h', 'When %m.lr stick is facing %m.dir', 'stickis', "Left", "Up"],
-            ['r', '%m.lr stick %m.aefe', 'aefe', 'Left', "Angle"],
+            ['b', '%m.buttons is pressed?', 			'ispressed', 	"A"],
+            ['h', 'When %m.buttons is pressed',			'ispressed', 	"A"],
+            ['r', '%m.lr stick %m.hv position', 		'stickpos', 	"Left", "Horizontal"],
+            ['r', '%m.lr stick %m.hvb direction', 		'stickfacing', 	"Left", "Both"],
+            ['b', '%m.lr stick is facing %m.dir?', 		'stickis', 		"Left", "Up"],
+            ['h', 'When %m.lr stick is facing %m.dir', 	'stickis', 		"Left", "Up"],
+            ['r', '%m.lr stick %m.aefe', 				'aefe', 		'Left', "Angle"],
         ],
         menus: {
             buttons: ["Y", "B", "A", "X", "LB", "RB", "LT", "RT", "SELECT", "START", "LEFT STICK", "RIGHT STICK"],
