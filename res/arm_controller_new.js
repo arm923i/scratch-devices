@@ -80,21 +80,24 @@
      ext.getStick = function(what, stick) {
 	    var x, y;
 	    switch (stick) {
-	      case "left":  x = controllers[0].axes[0]; y = -controllers[0].axes[1]; break;
-	      case "right": x = controllers[0].axes[5]; y = -controllers[0].axes[2]; break;
+	      case "Left":  x = controllers[0].axes[0]; y = -controllers[0].axes[1]; break;
+	      case "Right": x = controllers[0].axes[5]; y = -controllers[0].axes[2]; break;
 	    }
 	    switch (what) {
-	      case "direction":
+	      case "Direction":
 	        if (x === 0 && y === 0) {
 	          return ext.stickDirection[stick];
 	        }
 	        var value = (180 * Math.atan2(x, y) / Math.PI) + 135;
 	        ext.stickDirection[stick] = value;
 	        return value.toFixed(2);
-	      case "forceX":
+	      break;
+	      case "ForceX":
 	        return x.toFixed(2)*5;
-	      case "forceY":
+	      break;
+	      case "ForceY":
 	        return y.toFixed(2)*5;
+	      break;
 	    }
 	  };
     
@@ -226,20 +229,19 @@
             ['h', 'When button %m.buttons pressed', 'getButton', 'X'],
             ['b', 'button %m.buttons pressed', 'getButton', 'X'],
             ['-'],
-            ['r', '%m.lr stick %m.hv position', 'stickpos', "Left", "Horizontal"],
-            ['R', '%m.lr stick %m.hvb direction', 'stickfacing', "Left", "Both"],
+            ['r', '%m.sticks stick %m.hv position', 'stickpos', "Left", "Horizontal"],
+            ['R', '%m.sticks stick %m.hvb direction', 'stickfacing', "Left", "Both"],
             ['-'],
-            ['h', 'When %m.lr stick is facing %m.dir', 'stickis', "Left", "Up"],
-            ['b', '%m.lr stick is facing %m.dir?', 'stickis', "Left", "Up"], 
+            ['h', 'When %m.sticks stick is facing %m.dir', 'stickis', "Left", "Up"],
+            ['b', '%m.sticks stick is facing %m.dir?', 'stickis', "Left", "Up"], 
             ['-'],  
-            ['r', '%m.lr stick %m.aefe', 'aefe', 'Left', "Angle"],   
+            ['r', '%m.sticks stick %m.aefe', 'aefe', 'Left', "Angle"],   
     		['r', "%m.axisValue of %m.sticks stick", "getStick", "direction", "left"],
         ],
         menus: {
         	buttons: buttonList,
-	      	sticks: ["left", "right"],
-	     	axisValue: ["direction", "forceX", "forceY"],
-            lr: ["Left", "Right"],
+	      	sticks: ["Left", "Right"],
+	     	axisValue: ["Direction", "ForceX", "ForceY"],
             hv: ["Horizontal", "Vertical"],
             hvb: ["Horizontal", "Vertical", "Both"],
             dir: ["Up", "Down", "Left", "Right", "Up Left", "Up Right", "Down Left", "Down Right"],
