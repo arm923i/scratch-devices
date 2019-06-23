@@ -1,9 +1,3 @@
-/*
-  *  GamePad Controller Extension for USB Twin GamePad
-  *  in the tool environment Scratch, written in JavaScript language
-  *  © 2019 by @arm923i https://t.me/arm923i
-*/
-
 (function(ext) {
 
   var buttons = [
