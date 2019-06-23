@@ -2,7 +2,8 @@
 (function(ext) {
     ext._shutdown = function() {};
     var haveEvents = 'ongamepadconnected' in window,
-        controllers = {};
+        controllers = {},
+        controllerList = [];
 
     var buttons = [
    	   ['A', 0],
@@ -49,7 +50,10 @@
     }
 
     function scangamepads() {
-        for (var e = navigator.getGamepads ? navigator.getGamepads() : navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : [], n = 0; n < e.length; n++) e[n] && (e[n].index in controllers ? controllers[e[n].index] = e[n] : addgamepad(e[n]))
+        for (var e = navigator.getGamepads ? navigator.getGamepads() : navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : [], n = 0; n < e.length; n++) e[n] && (e[n].index in controllers ? controllers[e[n].index] = e[n] : addgamepad(e[n]));
+        for (var j = 0; j < e.length; j++){
+        	controllerList[j] = e[n].index;
+        }
     }
     window.addEventListener('gamepadconnected', connecthandler), window.addEventListener('gamepaddisconnected', disconnecthandler), haveEvents || setInterval(scangamepads, 1);
    
@@ -204,7 +208,7 @@
 
     var descriptor = {
 		blocks: [
-			['r', 'device id', 'getInfo'],
+			['r', 'device id %m.devices', 'getInfo'],
 			['-'],
 			['h', 'When button %m.buttons pressed', 		'getButton', 	'X'],
 			['b', 'button %m.buttons pressed', 				'getButton', 	'X'],
@@ -219,6 +223,7 @@
 			['r', '%m.sticks stick %m.axisValue', 			'getStick',		'Left', 'Direction']
 		],
 		menus: {
+			devices: 	controllerList,
 			buttons: 	buttonList,
 			sticks: 	['Left', 'Right'],
 			axisValue: 	['Direction', 'ForceX', 'ForceY'],
