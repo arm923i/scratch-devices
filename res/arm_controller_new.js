@@ -15,7 +15,7 @@
        ['select', 8],
        ['start', 9],
        ['left stick', 10],
-       ['right stick', 11],
+       ['right stick', 11]
      ];
    
      var buttonList = [];
@@ -205,29 +205,29 @@
 		blocks: [
 			['r', 'device id', 'getInfo'],
 			['-'],
-			['h', 'When button %m.buttons pressed', 'getButton', 'X'],
-			['b', 'button %m.buttons pressed', 		'getButton', 'X'],
+			['h', 'When button %m.buttons pressed', 		'getButton', 	'X'],
+			['b', 'button %m.buttons pressed', 				'getButton', 	'X'],
 			['-'],
-			['r', '%m.sticks stick %m.hv position', 	'getStickPos', 			'Left', 'Horizontal'],
-			['r', '%m.sticks stick %m.hvb direction', 	'getStickDirection', 	'Left', 'Both'],
+			['r', '%m.sticks stick %m.hv position', 		'getStickPos', 			'Left', 'Horizontal'],
+			['r', '%m.sticks stick %m.hvb direction', 		'getStickDirection', 	'Left', 'Both'],
 			['-'],
-			['h', 'When %m.sticks stick is facing %m.dir', 	'getStickFacing', 'Left', 'Up'],
-			['b', '%m.sticks stick is facing %m.dir?', 		'getStickFacing', 'Left', 'Up'], 
+			['h', 'When %m.sticks stick is facing %m.dir', 	'getStickFacing', 		'Left', 'Up'],
+			['b', '%m.sticks stick is facing %m.dir?', 		'getStickFacing', 		'Left', 'Up'], 
 			['-'],  
-			['r', '%m.sticks stick %m.aefe', 		'getStickAF', 'Left', 'Angle'],   
-			['r', '%m.sticks stick %m.axisValue', 	'getStick', 'Left', 'Direction'],
+			['r', '%m.sticks stick %m.aefe', 				'getStickAF',	'Left', 'Angle'],   
+			['r', '%m.sticks stick %m.axisValue', 			'getStick',		'Left', 'Direction']
 		],
 		menus: {
-			buttons: buttonList,
-			sticks: ['Left', 'Right'],
-			axisValue: ['Direction', 'ForceX', 'ForceY'],
-			hv: ['Horizontal', 'Vertical'],
-			hvb: ['Horizontal', 'Vertical', 'Both'],
-			dir: ['Up', 'Down', 'Left', 'Right', 'Up Left', 'Up Right', 'Down Left', 'Down Right'],
-			aefe: ['Angle', 'Force']
+			buttons: 	buttonList,
+			sticks: 	['Left', 'Right'],
+			axisValue: 	['Direction', 'ForceX', 'ForceY'],
+			hv: 		['Horizontal', 'Vertical'],
+			hvb: 		['Horizontal', 'Vertical', 'Both'],
+			dir: 		['Up', 'Down', 'Left', 'Right', 'Up Left', 'Up Right', 'Down Left', 'Down Right'],
+			aefe: 		['Angle', 'Force']
 		},
 		url: 'https://arm923i.github.io/scratch-devices/',
-			displayName: '@arm923i Gamepad'
+		displayName: '@arm923i Gamepad'
     };
 
     ScratchExtensions.register('@arm923i Gamepad', descriptor, ext);
