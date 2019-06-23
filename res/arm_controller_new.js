@@ -221,7 +221,7 @@
 
     var descriptor = {
         blocks: [
-        	[' ', 'id', 'getInfo'],
+        	['r', 'id', 'getInfo'],
             ['h', 'When button %m.buttons pressed', 'getButton', 'X'],
             ['b', 'button %m.buttons pressed', 'getButton', 'X'],
             ['-'],
