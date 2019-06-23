@@ -28,29 +28,29 @@
      });
 
     function connecthandler(e) {
-        addgamepad(e.gamepad) // Add the controller to the "controllers" object
+        addgamepad(e.gamepad);
     }
 
     function addgamepad(e) {
-        controllers[e.index] = e // Add the controller to the "controllers" object
+        controllers[e.index] = e;
     }
 
     function disconnecthandler(e) {
-        removegamepad(e.gamepad) // Handle Disconnects
+        removegamepad(e.gamepad);
     }
 
     function removegamepad(e) {
-        delete controllers[e.index] // Remove controllers when disconnected
+        delete controllers[e.index];
     }
 
     function updateStatus() {
-        haveEvents || scangamepads(), requestAnimationFrame(updateStatus) // Update the controller values
+        haveEvents || scangamepads(), requestAnimationFrame(updateStatus);
     }
 
     function scangamepads() {
         for (var e = navigator.getGamepads ? navigator.getGamepads() : navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : [], n = 0; n < e.length; n++) e[n] && (e[n].index in controllers ? controllers[e[n].index] = e[n] : addgamepad(e[n]))
     }
-    window.addEventListener("gamepadconnected", connecthandler), window.addEventListener("gamepaddisconnected", disconnecthandler), haveEvents || setInterval(scangamepads, 1); // When the controller is detected, enable the extension
+    window.addEventListener("gamepadconnected", connecthandler), window.addEventListener("gamepaddisconnected", disconnecthandler), haveEvents || setInterval(scangamepads, 1);
    
     ext._getStatus = function() {
         return {
@@ -90,7 +90,7 @@
 	    }
 	  };
     
-    ext.aefe = function(s,af) { // Return the force or angle of a specified stick
+    ext.aefe = function(s,af) {
         var xp, yp;
         switch (s) {
             case "Left":
