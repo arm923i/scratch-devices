@@ -215,7 +215,7 @@
             ['b', '%m.sticks stick is facing %m.dir?', 'getStickFacing', "Left", "Up"], 
             ['-'],  
             ['r', '%m.sticks stick %m.aefe', 'getStickAF', 'Left', "Angle"],   
-    		['r', "%m.axisValue of %m.sticks stick", "getStick", "Direction", "Left"],
+    		['r', "%m.sticks stick %m.axisValue", "getStick", "Direction", "Left"],
         ],
         menus: {
         	buttons: buttonList,
