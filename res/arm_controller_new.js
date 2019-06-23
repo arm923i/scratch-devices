@@ -1,7 +1,7 @@
 /*
-  *  GamePad Controller Extension for USB Twin GamePad
-  *  in the tool environment Scratch, written in JavaScript language
-  *  © 2019 by @arm923i https://t.me/arm923i
+  * Software Module for GamePad Controller Support
+  * Extension for the Scratch tool environment
+  * © 2019 by @arm923i https://t.me/arm923i
 */
 
 (function(ext) {
@@ -37,37 +37,31 @@
     buttonNames[name] = index;
   });
 
-    function connecthandler(e) {
-      addgamepad(e.gamepad);
-      console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.", e.gamepad.index, e.gamepad.id, e.gamepad.buttons.length, e.gamepad.axes.length);
-      for (var i=0; i<e.gamepad.buttons.length; i++) {
-        var b = e.gamepad.buttons[i];
-        console.log(b);
-      }
-    }
+  function connecthandler(e) {
+    addgamepad(e.gamepad);
+    console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.", e.gamepad.index, e.gamepad.id, e.gamepad.buttons.length, e.gamepad.axes.length);
+  }
 
-    function addgamepad(e) {
-        controllers[e.index] = e;
-    }
+  function addgamepad(e) {
+      controllers[e.index] = e;
+  }
 
-    function disconnecthandler(e) {
-        removegamepad(e.gamepad);
-        console.log("Gamepad disconnected from index %d: %s", e.gamepad.index, e.gamepad.id);
-    }
+  function disconnecthandler(e) {
+    removegamepad(e.gamepad);
+    console.log("Gamepad disconnected from index %d: %s", e.gamepad.index, e.gamepad.id);
+  }
 
-    function removegamepad(e) {
-        delete controllers[e.index];
-    }
+  function removegamepad(e) {
+    delete controllers[e.index];
+  }
 
-    function updateStatus() {
-        haveEvents || scangamepads(), rAF(updateStatus)
-    }
+  function updateStatus() {
+    haveEvents || scangamepads(), rAF(updateStatus)
+  }
 
-    function scangamepads() {
-        for (var e = navigator.getGamepads ? navigator.getGamepads() : navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : [], n = 0; n < e.length; n++) e[n] && (e[n].index in controllers ? controllers[e[n].index] = e[n] : addgamepad(e[n]))
-    }
-
-
+  function scangamepads() {
+    for (var e = navigator.getGamepads ? navigator.getGamepads() : navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : [], n = 0; n < e.length; n++) e[n] && (e[n].index in controllers ? controllers[e[n].index] = e[n] : addgamepad(e[n]));
+  }
 
   if (haveEvents) {
     window.addEventListener("gamepadconnected", connecthandler);
@@ -79,46 +73,47 @@
     setInterval(scangamepads, 500);
   }
 
-
   ext._shutdown = function() {};
 
-  ext._getStatus = function() {
+  ext.gamepadSupport = (!!navigator.getGamepads || !!navigator.gamepads);
 
+  ext._getStatus = function() {
+    if (!ext.gamepadSupport) return {
+      status: 1,
+      msg: "GamePad not supported",
+    };
     return {
       status: 2,
       msg: "Good to go!",
     };
   };
 
-  ext.installed = function() {
-    return true;
-  }
+  var dz = 8000 / 32767; // Deadzone
 
-  ext.getButton_1 = function(name) {
+  ext.stickDirection = {left: 90, right: 90};
+
+  ext.getButton = function(name) {
     var index = buttonNames[name];
-    var button = ext.gamepad.buttons[index];
+    var button = controllers[0].buttons[index];
     return button.pressed;
   };
 
-  ext.getButton_2 = function(name) {
-    var index = buttonNames[name];
-    var button = ext.gamepad_2.buttons[index];
-    return button.pressed;
-  };
-
-  ext.getStick_1 = function(what, stick) {
+  ext.getStick = function(what, stick) {
     var x, y;
     switch (stick) {
-      case "left":  x = ext.gamepad.axes[0]; y = -ext.gamepad.axes[1]; break;
-      case "right": x = ext.gamepad.axes[5]; y = -ext.gamepad.axes[2]; break;
+      case "left":  x = controllers[0].axes[0]; y = -controllers[0].axes[1]; break;
+      case "right": x = controllers[0].axes[5]; y = -controllers[0].axes[2]; break;
     }
+    if (-dz < x && x < dz) x = 0;
+    if (-dz < y && y < dz) y = 0;
+
     switch (what) {
       case "direction":
         if (x === 0 && y === 0) {
-          return ext.stickDirection_1[stick];
+          return ext.stickDirection[stick];
         }
         var value = (180 * Math.atan2(x, y) / Math.PI) + 135;
-        ext.stickDirection_1[stick] = value;
+        ext.stickDirection[stick] = value;
         return value;
       case "forceX":
         return x*5;
@@ -126,41 +121,160 @@
         return y*5;
     }
   };
+  
 
-  ext.getStick_2 = function(what, stick) {
-    var x, y;
-    switch (stick) {
-      case "left":  x = ext.gamepad_2.axes[0]; y = -ext.gamepad_2.axes[1]; break;
-      case "right": x = ext.gamepad_2.axes[5]; y = -ext.gamepad_2.axes[2]; break;
-    }
-    switch (what) {
-      case "direction":
-        if (x === 0 && y === 0) {
-          return ext.stickDirection_2[stick];
+  ext.aefe = function(s,af) { // Return the force or angle of a specified stick
+        var xp, yp;
+        switch (s) {
+            case "Left":
+                x = controllers[0].axes[0];
+                y = -controllers[0].axes[1];
+                break;
+            case "Right":
+                x = controllers[0].axes[2];
+                y = -controllers[0].axes[5];
+                break;
         }
-        var value = (180 * Math.atan2(x, y) / Math.PI) + 135;
-        ext.stickDirection_2[stick] = value;
-        return value;
-      case "forceX":
-        return x*5;
-      case "forceY":
-        return y*5;
+    if (-ni < x && x < ni) x = 0;
+    if (-ni < y && y < ni) y = 0;
+    switch(af) {
+      case "Angle":
+        return(value = 180 * Math.atan2(x, y) / Math.PI);
+      break;
+      
+      case "Force":
+        return Math.sqrt(x*x + y*y);
+      break;
     }
-  };
+    };
+
+    ext.ispressed = function(b) {
+        return (controllers[0].buttons[["Y", "B", "A", "X", "LB", "RB", "LT", "RT", "SELECT", "START", "LEFT STICK", "RIGHT STICK"].indexOf(b)].pressed); // Return if the user is pressing the button given to the function
+    };
+
+    ext.stickpos = function(s, hv) {
+        return (controllers[0].axes[(["LeftHorizontal", "LeftVertical", "RightHorizontal", "", "", "RightVertical"].indexOf(s + hv))]); // Return the value of the axes for the stick and the direction specified
+    };
+
+    ext.stickfacing = function(s, hvb) { // Return a plaintext direction for a control stick
+        let output = "";
+        if (s == "Left") {
+            if (hvb == "Both" || hvb == "Vertical") {
+                if (controllers[0].axes[1] < -.5) {
+                    output += "Up "
+                } else if (controllers[0].axes[1] > .5) {
+                    output += "Down "
+                }
+            }
+            if (hvb == "Both" || hvb == "Horizontal") {
+                if (controllers[0].axes[0] < -.5) {
+                    output += "Left"
+                } else if (controllers[0].axes[0] > .5) {
+                    output += "Right"
+                }
+            }
+
+        };
+        if (s == "Right") {
+            if (hvb == "Both" || hvb == "Vertical") {
+                if (controllers[0].axes[5] < -.5) {
+                    output += "Up "
+                } else if (controllers[0].axes[5] > .5) {
+                    output += "Down "
+                }
+            }
+            if (hvb == "Both" || hvb == "Horizontal") {
+                if (controllers[0].axes[2] < -.5) {
+                    output += "Left"
+                } else if (controllers[0].axes[2] > .5) {
+                    output += "Right"
+                }
+            }
+        };
+        return (output);
+    };
+
+    ext.stickis = function(s, dir) { // Return true or false depending on if the specified stick is facing a direction
+        if (s == "Left") {
+            if (dir == "Up") {
+                return (controllers[0].axes[1] < -.5)
+            }
+            if (dir == "Down") {
+                return (controllers[0].axes[1] > .5)
+            }
+            if (dir == "Left") {
+                return (controllers[0].axes[0] < -.5)
+            }
+            if (dir == "Right") {
+                return (controllers[0].axes[0] > .5)
+            }
+            if (dir == "Up Left") {
+                return (controllers[0].axes[1] < -.5 && (controllers[0].axes[0] < -.5))
+            }
+            if (dir == "Up Right") {
+                return (controllers[0].axes[1] < -.5 && (controllers[0].axes[0] > .5))
+            }
+            if (dir == "Down Left") {
+                return (controllers[0].axes[1] > .5 && (controllers[0].axes[0] < -.5))
+            }
+            if (dir == "Down Right") {
+                return (controllers[0].axes[1] > .5 && (controllers[0].axes[0] > .5))
+            }
+        }
+        if (s == "Right") {
+            if (dir == "Up") {
+                return (controllers[0].axes[5] < -.5)
+            }
+            if (dir == "Down") {
+                return (controllers[0].axes[5] > .5)
+            }
+            if (dir == "Left") {
+                return (controllers[0].axes[2] < -.5)
+            }
+            if (dir == "Right") {
+                return (controllers[0].axes[2] > .5)
+            }
+            if (dir == "Up Left") {
+                return (controllers[0].axes[5] < -.5 && (controllers[0].axes[2] < -.5))
+            }
+            if (dir == "Up Right") {
+                return (controllers[0].axes[5] < -.5 && (controllers[0].axes[2] > .5))
+            }
+            if (dir == "Down Left") {
+                return (controllers[0].axes[5] > .5 && (controllers[0].axes[2] < -.5))
+            }
+            if (dir == "Down Right") {
+                return (controllers[0].axes[5] > .5 && (controllers[0].axes[2] > .5))
+            }
+        }
+
+    };
+
+
 
   var descriptor = {
-    blocks: [
-      ["b", "modules installed?", "installed"],
-      ["b", "gp#1 button %m.button pressed", "getButton_1", "X"],
-      ["b", "gp#2 button %m.button pressed", "getButton_2", "X"],
-      ["r", "gp#1 %m.axisValue of %m.stick stick", "getStick_1", "direction", "left"],
-      ["r", "gp#2 %m.axisValue of %m.stick stick", "getStick_2", "direction", "left"],
-    ],
-    menus: {
-      button: buttonList,
-      stick: ["left", "right"],
-      axisValue: ["direction", "forceX", "forceY"],
-    },
+      blocks: [
+          ['b', '%m.buttons is pressed?',       'ispressed',  "A"],
+          ['h', 'When %m.buttons is pressed',     'ispressed',  "A"],
+          ['r', '%m.lr stick %m.hv position',     'stickpos',   "Left", "Horizontal"],
+          ['r', '%m.lr stick %m.hvb direction',     'stickfacing',  "Left", "Both"],
+          ['b', '%m.lr stick is facing %m.dir?',    'stickis',    "Left", "Up"],
+          ['h', 'When %m.lr stick is facing %m.dir',  'stickis',    "Left", "Up"],
+          ['r', '%m.lr stick %m.aefe',        'aefe',     'Left', "Angle"],
+          ["b", "gp#1 button %m.button pressed", "getButton", "X"],
+          ["r", "gp#1 %m.axisValue of %m.stick stick", "getStick", "direction", "left"]
+      ],
+      menus: {
+          button: buttonList,
+          stick: ["left", "right"],
+          axisValue: ["direction", "forceX", "forceY"],
+          buttons: ["Y", "B", "A", "X", "LB", "RB", "LT", "RT", "SELECT", "START", "LEFT STICK", "RIGHT STICK"],
+          lr:    ["Left", "Right"],
+          hv:    ["Horizontal", "Vertical"],
+          hvb:   ["Horizontal", "Vertical", "Both"],
+          dir:   ["Up", "Down", "Left", "Right", "Up Left", "Up Right", "Down Left", "Down Right"],
+          aefe:    ["Angle", "Force"]
+      }
   };
 
   ScratchExtensions.register("@arm923i GamePad", descriptor, ext);
