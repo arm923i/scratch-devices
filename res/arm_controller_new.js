@@ -215,7 +215,7 @@
 			['b', '%m.sticks stick is facing %m.dir?', 'getStickFacing', "Left", "Up"], 
 			['-'],  
 			['r', '%m.sticks stick %m.aefe', 'getStickAF', 'Left', "Angle"],   
-			['r', "%m.sticks stick %m.axisValue", "getStick", "Direction", "Left"],
+			['r', "%m.sticks stick %m.axisValue", "getStick", "Left", "Direction"],
 		],
 		menus: {
 			buttons: buttonList,
@@ -230,5 +230,5 @@
 			displayName: '@arm923i Gamepad'
     };
 
-    ScratchExtensions.register('@arm923i Gamepad', descriptor, ext);
+    ScratchExtensions.register('@arm923i Gamepad', descriptor, ext, {type: 'hid', vendor:1345, product:0008});
 })({});
