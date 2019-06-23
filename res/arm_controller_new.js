@@ -61,7 +61,7 @@
     
     ext.stickDirection = {left: 90, right: 90};
 
-    var ni = 8000 / 32767; // Deadzone
+    var dz = 8000 / 32767; // Deadzone
 
      ext.getButton = function(name) {
 	    var index = buttonNames[name];
@@ -102,8 +102,8 @@
                 y = -controllers[0].axes[2];
                 break;
         }
-        if (-ni < x && x < ni) x = 0;
-        if (-ni < y && y < ni) y = 0;
+        if (-dz < x && x < dz) x = 0;
+        if (-dz < y && y < dz) y = 0;
         switch(af) {
             case "Angle":
                 return(value = 180 * Math.atan2(x, y) / Math.PI);
@@ -115,12 +115,8 @@
         }
     };
 
-    ext.ispressed = function(b) {
-        return (controllers[0].buttons[["Y", "B", "A", "X", "LB", "RB", "LT", "RT", "SELECT", "START", "LEFT STICK", "RIGHT STICK"].indexOf(b)].pressed); // Return if the user is pressing the button given to the function
-    };
-
     ext.stickpos = function(s, hv) {
-        return (controllers[0].axes[(["LeftHorizontal", "LeftVertical", "RightHorizontal", "", "", "RightVertical"].indexOf(s + hv))]); // Return the value of the axes for the stick and the direction specified
+        return (controllers[0].axes[(["LeftHorizontal", "LeftVertical", "RightHorizontal", "", "", "RightVertical"].indexOf(s + hv))].toFixed(2)); // Return the value of the axes for the stick and the direction specified
     };
 
     ext.stickfacing = function(s, hvb) { // Return a plaintext direction for a control stick
@@ -219,21 +215,19 @@
 
     var descriptor = {
         blocks: [
-            ['b', '%m.buttons is pressed?', 'ispressed', "A"],
-            ['h', 'When %m.buttons is pressed', 'ispressed', "A"],
+            ["h", "When button %m.buttons pressed", "getButton", "X"],
+            ["b", "button %m.buttons pressed", "getButton", "X"],
             ['r', '%m.lr stick %m.hv position', 'stickpos', "Left", "Horizontal"],
             ['r', '%m.lr stick %m.hvb direction', 'stickfacing', "Left", "Both"],
             ['b', '%m.lr stick is facing %m.dir?', 'stickis', "Left", "Up"],
             ['h', 'When %m.lr stick is facing %m.dir', 'stickis', "Left", "Up"],
-            ['r', '%m.lr stick %m.aefe', 'aefe', 'Left', "Angle"],
-            ["b", "button %m.button pressed", "getButton", "X"],
+            ['r', '%m.lr stick %m.aefe', 'aefe', 'Left', "Angle"],   
     		["r", "%m.axisValue of %m.sticks stick", "getStick", "direction", "left"],
         ],
         menus: {
-        	button: buttonList,
+        	buttons: buttonList,
 	      	sticks: ["left", "right"],
-	     	 axisValue: ["direction", "forceX", "forceY"],
-            buttons: ["Y", "B", "A", "X", "LB", "RB", "LT", "RT", "SELECT", "START", "LEFT STICK", "RIGHT STICK"],
+	     	axisValue: ["direction", "forceX", "forceY"],
             lr: ["Left", "Right"],
             hv: ["Horizontal", "Vertical"],
             hvb: ["Horizontal", "Vertical", "Both"],
