@@ -110,7 +110,7 @@
             break;
             
             case "Force":
-                return Math.sqrt(x*x + y*y);
+                return Math.sqrt(x*x + y*y).toFixed(2);
             break;
         }
     };
