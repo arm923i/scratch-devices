@@ -136,7 +136,6 @@
                     output += "Right"
                 }
             }
-
         };
         if (s == "Right") {
             if (hvb == "Both" || hvb == "Vertical") {
@@ -210,7 +209,6 @@
                 return (controllers[0].axes[5] > .5 && (controllers[0].axes[2] > .5))
             }
         }
-
     };
 
     var descriptor = {
