@@ -33,9 +33,6 @@
 
     function addgamepad(e) {
         controllers[e.index] = e;
-        console.log(e.mapping);
-    	console.log(e.connected);
-    	console.log(e.displayId);
     }
 
     function disconnecthandler(e) {
@@ -56,6 +53,10 @@
     window.addEventListener("gamepadconnected", connecthandler), window.addEventListener("gamepaddisconnected", disconnecthandler), haveEvents || setInterval(scangamepads, 1);
    
     ext._getStatus = function() {
+    	if (!controllers[0].connected) return {
+	      status: 1,
+	      msg: "GamePad not connected",
+	    };
         return {
             status: 2,
             msg: 'Ready'
@@ -84,53 +85,35 @@
 	      case "Right": x = controllers[0].axes[5]; y = -controllers[0].axes[2]; break;
 	    }
 	    switch (what) {
-	      case "Direction":
-	        if (x === 0 && y === 0) {
-	          return ext.stickDirection[stick];
-	        }
-	        var value = (180 * Math.atan2(x, y) / Math.PI) + 135;
-	        ext.stickDirection[stick] = value;
+	      case "Direction": 
+	      	var value = (180 * Math.atan2(x, y) / Math.PI) + 135; 
+	      	ext.stickDirection[stick] = value;
 	        return value.toFixed(2);
 	      break;
-	      case "ForceX":
-	        return x.toFixed(2)*5;
-	      break;
-	      case "ForceY":
-	        return y.toFixed(2)*5;
-	      break;
+	      case "ForceX": return x.toFixed(2)*5; break;
+	      case "ForceY": return y.toFixed(2)*5; break;
 	    }
 	  };
     
-    ext.aefe = function(s,af) {
+    ext.getStickAF = function(stick,af) {
         var xp, yp;
-        switch (s) {
-            case "Left":
-                x = controllers[0].axes[0];
-                y = -controllers[0].axes[1];
-                break;
-            case "Right":
-                x = controllers[0].axes[5];
-                y = -controllers[0].axes[2];
-                break;
+        switch (stick) {
+            case "Left": x = controllers[0].axes[0]; y = -controllers[0].axes[1]; break;
+            case "Right": x = controllers[0].axes[5]; y = -controllers[0].axes[2]; break;
         }
         if (-dz < x && x < dz) x = 0;
         if (-dz < y && y < dz) y = 0;
         switch(af) {
-            case "Angle":
-                return(value = 180 * Math.atan2(x, y) / Math.PI);
-            break;
-            
-            case "Force":
-                return Math.sqrt(x*x + y*y).toFixed(2);
-            break;
+            case "Angle": return(value = 180 * Math.atan2(x, y) / Math.PI); break;
+            case "Force": return Math.sqrt(x*x + y*y).toFixed(2); break;
         }
     };
 
-    ext.stickpos = function(s, hv) {
+    ext.getStickPos = function(s, hv) {
         return (controllers[0].axes[(["LeftHorizontal", "LeftVertical", "RightHorizontal", "", "", "RightVertical"].indexOf(s + hv))].toFixed(2)); 
     };
 
-    ext.stickfacing = function(s, hvb) { 
+    ext.getStickDirection = function(s, hvb) { 
         let output = "";
         if (s == "Left") {
             if (hvb == "Both" || hvb == "Vertical") {
@@ -167,7 +150,7 @@
         return (output);
     };
 
-    ext.stickis = function(s, dir) {
+    ext.getStickFacing = function(s, dir) {
         if (s == "Left") {
             if (dir == "Up") {
                 return (controllers[0].axes[1] < -.5)
@@ -229,14 +212,14 @@
             ['h', 'When button %m.buttons pressed', 'getButton', 'X'],
             ['b', 'button %m.buttons pressed', 'getButton', 'X'],
             ['-'],
-            ['r', '%m.sticks stick %m.hv position', 'stickpos', "Left", "Horizontal"],
-            ['R', '%m.sticks stick %m.hvb direction', 'stickfacing', "Left", "Both"],
+            ['r', '%m.sticks stick %m.hv position', 'getStickPos', "Left", "Horizontal"],
+            ['r', '%m.sticks stick %m.hvb direction', 'getStickDirection', "Left", "Both"],
             ['-'],
-            ['h', 'When %m.sticks stick is facing %m.dir', 'stickis', "Left", "Up"],
-            ['b', '%m.sticks stick is facing %m.dir?', 'stickis', "Left", "Up"], 
+            ['h', 'When %m.sticks stick is facing %m.dir', 'getStickFacing', "Left", "Up"],
+            ['b', '%m.sticks stick is facing %m.dir?', 'getStickFacing', "Left", "Up"], 
             ['-'],  
-            ['r', '%m.sticks stick %m.aefe', 'aefe', 'Left', "Angle"],   
-    		['r', "%m.axisValue of %m.sticks stick", "getStick", "direction", "left"],
+            ['r', '%m.sticks stick %m.aefe', 'getStickAF', 'Left', "Angle"],   
+    		['r', "%m.axisValue of %m.sticks stick", "getStick", "Direction", "Left"],
         ],
         menus: {
         	buttons: buttonList,
