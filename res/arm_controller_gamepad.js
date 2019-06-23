@@ -1,12 +1,4 @@
-/*
-  * Software Module for GamePad Controller Support 
-  * in the tool environment Scratch, written in JavaScript language
-  * © 2019 by @arm923i https://t.me/arm923i
-*/
-
-
 (function(ext) {
-
     ext._shutdown = function() {};
     var haveEvents = "ongamepadconnected" in window,
         controllers = {};
@@ -35,21 +27,16 @@
         for (var e = navigator.getGamepads ? navigator.getGamepads() : navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : [], n = 0; n < e.length; n++) e[n] && (e[n].index in controllers ? controllers[e[n].index] = e[n] : addgamepad(e[n]))
     }
     window.addEventListener("gamepadconnected", connecthandler), window.addEventListener("gamepaddisconnected", disconnecthandler), haveEvents || setInterval(scangamepads, 1); // When the controller is detected, enable the extension
-    
     ext._getStatus = function() {
-    	if (!controllers) return {
-	      status: 1,
-	      msg: 'Connect a GamePad',
-	    };
-	    return {
+        return {
             status: 2,
             msg: 'Ready'
         };
     };
-	
-	var ni = 8000 / 32767; // Deadzone
-	
-	ext.aefe = function(s,af) { // Return the force or angle of a specified stick
+    
+    var ni = 8000 / 32767; // Deadzone
+    
+    ext.aefe = function(s,af) { // Return the force or angle of a specified stick
         var xp, yp;
         switch (s) {
             case "Left":
@@ -61,17 +48,17 @@
                 y = -controllers[0].axes[5];
                 break;
         }
-		if (-ni < x && x < ni) x = 0;
-		if (-ni < y && y < ni) y = 0;
-		switch(af) {
-			case "Angle":
-				return(value = 180 * Math.atan2(x, y) / Math.PI);
-			break;
-			
-			case "Force":
-				return Math.sqrt(x*x + y*y);
-			break;
-		}
+        if (-ni < x && x < ni) x = 0;
+        if (-ni < y && y < ni) y = 0;
+        switch(af) {
+            case "Angle":
+                return(value = 180 * Math.atan2(x, y) / Math.PI);
+            break;
+            
+            case "Force":
+                return Math.sqrt(x*x + y*y);
+            break;
+        }
     };
 
     ext.ispressed = function(b) {
@@ -147,7 +134,7 @@
                 return (controllers[0].axes[1] > .5 && (controllers[0].axes[0] > .5))
             }
         }
-        if (s == "Right") {
+        if (s == "Left") {
             if (dir == "Up") {
                 return (controllers[0].axes[5] < -.5)
             }
@@ -178,21 +165,21 @@
 
     var descriptor = {
         blocks: [
-            ['b', '%m.buttons is pressed?', 			'ispressed', 	"A"],
-            ['h', 'When %m.buttons is pressed',			'ispressed', 	"A"],
-            ['r', '%m.lr stick %m.hv position', 		'stickpos', 	"Left", "Horizontal"],
-            ['r', '%m.lr stick %m.hvb direction', 		'stickfacing', 	"Left", "Both"],
-            ['b', '%m.lr stick is facing %m.dir?', 		'stickis', 		"Left", "Up"],
-            ['h', 'When %m.lr stick is facing %m.dir', 	'stickis', 		"Left", "Up"],
-            ['r', '%m.lr stick %m.aefe', 				'aefe', 		'Left', "Angle"],
+            ['b', '%m.buttons is pressed?', 'ispressed', "A"],
+            ['h', 'When %m.buttons is pressed', 'ispressed', "A"],
+            ['r', '%m.lr stick %m.hv position', 'stickpos', "Left", "Horizontal"],
+            ['r', '%m.lr stick %m.hvb direction', 'stickfacing', "Left", "Both"],
+            ['b', '%m.lr stick is facing %m.dir?', 'stickis', "Left", "Up"],
+            ['h', 'When %m.lr stick is facing %m.dir', 'stickis', "Left", "Up"],
+            ['r', '%m.lr stick %m.aefe', 'aefe', 'Left', "Angle"],
         ],
         menus: {
             buttons: ["Y", "B", "A", "X", "LB", "RB", "LT", "RT", "SELECT", "START", "LEFT STICK", "RIGHT STICK"],
-            lr: 	 ["Left", "Right"],
-            hv: 	 ["Horizontal", "Vertical"],
-            hvb: 	 ["Horizontal", "Vertical", "Both"],
-            dir: 	 ["Up", "Down", "Left", "Right", "Up Left", "Up Right", "Down Left", "Down Right"],
-			aefe: 	 ["Angle", "Force"]
+            lr: ["Left", "Right"],
+            hv: ["Horizontal", "Vertical"],
+            hvb: ["Horizontal", "Vertical", "Both"],
+            dir: ["Up", "Down", "Left", "Right", "Up Left", "Up Right", "Down Left", "Down Right"],
+            aefe: ["Angle", "Force"]
         }
     };
 
