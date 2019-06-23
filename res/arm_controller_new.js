@@ -221,12 +221,13 @@
 
     var descriptor = {
         blocks: [
-        	['r', 'id', 'getInfo'],
+        	['r', 'device id', 'getInfo'],
+        	['-'],
             ['h', 'When button %m.buttons pressed', 'getButton', 'X'],
             ['b', 'button %m.buttons pressed', 'getButton', 'X'],
             ['-'],
             ['r', '%m.lr stick %m.hv position', 'stickpos', "Left", "Horizontal"],
-            ['r', '%m.lr stick %m.hvb direction', 'stickfacing', "Left", "Both"],
+            ['R', '%m.lr stick %m.hvb direction', 'stickfacing', "Left", "Both"],
             ['-'],
             ['h', 'When %m.lr stick is facing %m.dir', 'stickis', "Left", "Up"],
             ['b', '%m.lr stick is facing %m.dir?', 'stickis', "Left", "Up"], 
