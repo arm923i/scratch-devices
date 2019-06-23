@@ -1,3 +1,4 @@
+
 (function(ext) {
     ext._shutdown = function() {};
     var haveEvents = 'ongamepadconnected' in window,
@@ -74,7 +75,7 @@
 	    return button.pressed;
 	  };
 
-     ext.getStick = function(what, stick) {
+     ext.getStick = function(stick, what) {
 	    var x, y;
 	    switch (stick) {
 	      case 'Left':  x = controllers[0].axes[0]; y = -controllers[0].axes[1]; break;
