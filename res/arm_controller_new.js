@@ -33,6 +33,9 @@
 
     function addgamepad(e) {
         controllers[e.index] = e;
+        console.log(e.mapping);
+    	console.log(e.connected);
+    	console.log(e.displayId);
     }
 
     function disconnecthandler(e) {
@@ -58,6 +61,11 @@
             msg: 'Ready'
         };
     };
+
+    ext.getInfo = function() {
+		return controllers[0].id;
+	};
+
     
     ext.stickDirection = {left: 90, right: 90};
 
@@ -213,6 +221,7 @@
 
     var descriptor = {
         blocks: [
+        	[' ', 'id', 'getInfo'],
             ['h', 'When button %m.buttons pressed', 'getButton', 'X'],
             ['b', 'button %m.buttons pressed', 'getButton', 'X'],
             ['-'],
