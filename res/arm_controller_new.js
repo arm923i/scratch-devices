@@ -51,6 +51,7 @@
         for (var e = navigator.getGamepads ? navigator.getGamepads() : navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : [], n = 0; n < e.length; n++) e[n] && (e[n].index in controllers ? controllers[e[n].index] = e[n] : addgamepad(e[n]))
     }
     window.addEventListener("gamepadconnected", connecthandler), window.addEventListener("gamepaddisconnected", disconnecthandler), haveEvents || setInterval(scangamepads, 1); // When the controller is detected, enable the extension
+   
     ext._getStatus = function() {
         return {
             status: 2,
@@ -58,6 +59,8 @@
         };
     };
     
+    ext.stickDirection = {left: 90, right: 90};
+
     var ni = 8000 / 32767; // Deadzone
 
      ext.getButton = function(name) {
@@ -75,10 +78,10 @@
 	    switch (what) {
 	      case "direction":
 	        if (x === 0 && y === 0) {
-	          return ext.stickDirection_1[stick];
+	          return ext.stickDirection[stick];
 	        }
 	        var value = (180 * Math.atan2(x, y) / Math.PI) + 135;
-	        ext.stickDirection_1[stick] = value;
+	        ext.stickDirection[stick] = value;
 	        return value;
 	      case "forceX":
 	        return x*5;
