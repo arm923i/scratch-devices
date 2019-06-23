@@ -38,13 +38,16 @@
   });
 
     function connecthandler(e) {
-        addgamepad(e.gamepad);
-        console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.", e.gamepad.index, e.gamepad.id, e.gamepad.buttons.length, e.gamepad.axes.length);
+      addgamepad(e.gamepad);
+      console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.", e.gamepad.index, e.gamepad.id, e.gamepad.buttons.length, e.gamepad.axes.length);
+      for (var i=0; i<e.gamepad.buttons.length; i++) {
+        var b = e.gamepad.buttons[i];
+        console.log(b);
+      }
     }
 
     function addgamepad(e) {
         controllers[e.index] = e;
-        console.log("add", e.index, e.id, e.buttons.length, e.axes.length);
     }
 
     function disconnecthandler(e) {
@@ -64,15 +67,17 @@
         for (var e = navigator.getGamepads ? navigator.getGamepads() : navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : [], n = 0; n < e.length; n++) e[n] && (e[n].index in controllers ? controllers[e[n].index] = e[n] : addgamepad(e[n]))
     }
 
-if (haveEvents) {
-  window.addEventListener("gamepadconnected", connecthandler);
-  window.addEventListener("gamepaddisconnected", disconnecthandler);
-} else if (haveWebkitEvents) {
-  window.addEventListener("webkitgamepadconnected", connecthandler);
-  window.addEventListener("webkitgamepaddisconnected", disconnecthandler);
-} else {
-  setInterval(scangamepads, 500);
-}
+
+
+  if (haveEvents) {
+    window.addEventListener("gamepadconnected", connecthandler);
+    window.addEventListener("gamepaddisconnected", disconnecthandler);
+  } else if (haveWebkitEvents) {
+    window.addEventListener("webkitgamepadconnected", connecthandler);
+    window.addEventListener("webkitgamepaddisconnected", disconnecthandler);
+  } else {
+    setInterval(scangamepads, 500);
+  }
 
 
   ext._shutdown = function() {};
@@ -158,6 +163,6 @@ if (haveEvents) {
     },
   };
 
-  ScratchExtensions.register("Twin GamePad", descriptor, ext);
+  ScratchExtensions.register("@arm923i GamePad", descriptor, ext);
 
 })({});
