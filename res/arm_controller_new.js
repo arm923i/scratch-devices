@@ -75,13 +75,7 @@
 
   ext._shutdown = function() {};
 
-  ext.gamepadSupport = (!!navigator.getGamepads || !!navigator.gamepads);
-
   ext._getStatus = function() {
-    if (!ext.gamepadSupport) return {
-      status: 1,
-      msg: "GamePad not supported",
-    };
     return {
       status: 2,
       msg: "Good to go!",
@@ -135,8 +129,8 @@
                 y = -controllers[0].axes[5];
                 break;
         }
-    if (-ni < x && x < ni) x = 0;
-    if (-ni < y && y < ni) y = 0;
+    if (-dz < x && x < dz) x = 0;
+    if (-dz < y && y < dz) y = 0;
     switch(af) {
       case "Angle":
         return(value = 180 * Math.atan2(x, y) / Math.PI);
