@@ -6,8 +6,8 @@ $('.scrollup').click(function(){
 
 var $page = $('html, body');
 $('a[href*="#"]').click(function() {
-    $('html, body').animate({
-        scrollTop: $($.attr(this, 'href')).offset().top - $('.navbar').height()
-    }, 600);
+    $page.animate({
+        scrollTop: $($.attr(this, 'href')).offset().top
+    }, 400);
     return false;
 });
