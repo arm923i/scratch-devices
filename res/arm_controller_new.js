@@ -1,21 +1,21 @@
 (function(ext) {
     ext._shutdown = function() {};
-    var haveEvents = "ongamepadconnected" in window,
+    var haveEvents = 'ongamepadconnected' in window,
         controllers = {};
 
     var buttons = [
-   	   ["A", 0],
-       ["B", 1],
-       ["X", 2],
-       ["Y", 3],
-       ["left top", 4],
-       ["left bottom", 6],
-       ["right top", 5],
-       ["right bottom", 7],
-       ["select", 8],
-       ["start", 9],
-       ["left stick", 10],
-       ["right stick", 11],
+   	   ['A', 0],
+       ['B', 1],
+       ['X', 2],
+       ['Y', 3],
+       ['left top', 4],
+       ['left bottom', 6],
+       ['right top', 5],
+       ['right bottom', 7],
+       ['select', 8],
+       ['start', 9],
+       ['left stick', 10],
+       ['right stick', 11],
      ];
    
      var buttonList = [];
@@ -50,7 +50,7 @@
     function scangamepads() {
         for (var e = navigator.getGamepads ? navigator.getGamepads() : navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : [], n = 0; n < e.length; n++) e[n] && (e[n].index in controllers ? controllers[e[n].index] = e[n] : addgamepad(e[n]))
     }
-    window.addEventListener("gamepadconnected", connecthandler), window.addEventListener("gamepaddisconnected", disconnecthandler), haveEvents || setInterval(scangamepads, 1);
+    window.addEventListener('gamepadconnected', connecthandler), window.addEventListener('gamepaddisconnected', disconnecthandler), haveEvents || setInterval(scangamepads, 1);
    
     ext._getStatus = function() {
         return {
@@ -77,69 +77,69 @@
      ext.getStick = function(what, stick) {
 	    var x, y;
 	    switch (stick) {
-	      case "Left":  x = controllers[0].axes[0]; y = -controllers[0].axes[1]; break;
-	      case "Right": x = controllers[0].axes[5]; y = -controllers[0].axes[2]; break;
+	      case 'Left':  x = controllers[0].axes[0]; y = -controllers[0].axes[1]; break;
+	      case 'Right': x = controllers[0].axes[5]; y = -controllers[0].axes[2]; break;
 	    }
 	    switch (what) {
-	      case "Direction": 
+	      case 'Direction': 
 	      	var value = (180 * Math.atan2(x, y) / Math.PI) + 135; 
 	      	ext.stickDirection[stick] = value;
 	        return value.toFixed(2);
 	      break;
-	      case "ForceX": return x.toFixed(2)*5; break;
-	      case "ForceY": return y.toFixed(2)*5; break;
+	      case 'ForceX': return x.toFixed(2)*5; break;
+	      case 'ForceY': return y.toFixed(2)*5; break;
 	    }
 	  };
     
     ext.getStickAF = function(stick,af) {
         var xp, yp;
         switch (stick) {
-            case "Left": x = controllers[0].axes[0]; y = -controllers[0].axes[1]; break;
-            case "Right": x = controllers[0].axes[5]; y = -controllers[0].axes[2]; break;
+            case 'Left': x = controllers[0].axes[0]; y = -controllers[0].axes[1]; break;
+            case 'Right': x = controllers[0].axes[5]; y = -controllers[0].axes[2]; break;
         }
         if (-dz < x && x < dz) x = 0;
         if (-dz < y && y < dz) y = 0;
         switch(af) {
-            case "Angle": return(value = 180 * Math.atan2(x, y) / Math.PI); break;
-            case "Force": return Math.sqrt(x*x + y*y).toFixed(2); break;
+            case 'Angle': return(value = 180 * Math.atan2(x, y) / Math.PI); break;
+            case 'Force': return Math.sqrt(x*x + y*y).toFixed(2); break;
         }
     };
 
     ext.getStickPos = function(s, hv) {
-        return (controllers[0].axes[(["LeftHorizontal", "LeftVertical", "RightHorizontal", "", "", "RightVertical"].indexOf(s + hv))].toFixed(2)); 
+        return (controllers[0].axes[(['LeftHorizontal', 'LeftVertical', 'RightHorizontal', '', '', 'RightVertical'].indexOf(s + hv))].toFixed(2)); 
     };
 
     ext.getStickDirection = function(s, hvb) { 
-        let output = "";
-        if (s == "Left") {
-            if (hvb == "Both" || hvb == "Vertical") {
+        let output = '';
+        if (s == 'Left') {
+            if (hvb == 'Both' || hvb == 'Vertical') {
                 if (controllers[0].axes[1] < -.5) {
-                    output += "Up "
+                    output += 'Up '
                 } else if (controllers[0].axes[1] > .5) {
-                    output += "Down "
+                    output += 'Down '
                 }
             }
-            if (hvb == "Both" || hvb == "Horizontal") {
+            if (hvb == 'Both' || hvb == 'Horizontal') {
                 if (controllers[0].axes[0] < -.5) {
-                    output += "Left"
+                    output += 'Left'
                 } else if (controllers[0].axes[0] > .5) {
-                    output += "Right"
+                    output += 'Right'
                 }
             }
         };
-        if (s == "Right") {
-            if (hvb == "Both" || hvb == "Vertical") {
+        if (s == 'Right') {
+            if (hvb == 'Both' || hvb == 'Vertical') {
                 if (controllers[0].axes[5] < -.5) {
-                    output += "Up "
+                    output += 'Up '
                 } else if (controllers[0].axes[5] > .5) {
-                    output += "Down "
+                    output += 'Down '
                 }
             }
-            if (hvb == "Both" || hvb == "Horizontal") {
+            if (hvb == 'Both' || hvb == 'Horizontal') {
                 if (controllers[0].axes[2] < -.5) {
-                    output += "Left"
+                    output += 'Left'
                 } else if (controllers[0].axes[2] > .5) {
-                    output += "Right"
+                    output += 'Right'
                 }
             }
         };
@@ -147,55 +147,55 @@
     };
 
     ext.getStickFacing = function(s, dir) {
-        if (s == "Left") {
-            if (dir == "Up") {
+        if (s == 'Left') {
+            if (dir == 'Up') {
                 return (controllers[0].axes[1] < -.5)
             }
-            if (dir == "Down") {
+            if (dir == 'Down') {
                 return (controllers[0].axes[1] > .5)
             }
-            if (dir == "Left") {
+            if (dir == 'Left') {
                 return (controllers[0].axes[0] < -.5)
             }
-            if (dir == "Right") {
+            if (dir == 'Right') {
                 return (controllers[0].axes[0] > .5)
             }
-            if (dir == "Up Left") {
+            if (dir == 'Up Left') {
                 return (controllers[0].axes[1] < -.5 && (controllers[0].axes[0] < -.5))
             }
-            if (dir == "Up Right") {
+            if (dir == 'Up Right') {
                 return (controllers[0].axes[1] < -.5 && (controllers[0].axes[0] > .5))
             }
-            if (dir == "Down Left") {
+            if (dir == 'Down Left') {
                 return (controllers[0].axes[1] > .5 && (controllers[0].axes[0] < -.5))
             }
-            if (dir == "Down Right") {
+            if (dir == 'Down Right') {
                 return (controllers[0].axes[1] > .5 && (controllers[0].axes[0] > .5))
             }
         }
-        if (s == "Left") {
-            if (dir == "Up") {
+        if (s == 'Left') {
+            if (dir == 'Up') {
                 return (controllers[0].axes[5] < -.5)
             }
-            if (dir == "Down") {
+            if (dir == 'Down') {
                 return (controllers[0].axes[5] > .5)
             }
-            if (dir == "Left") {
+            if (dir == 'Left') {
                 return (controllers[0].axes[2] < -.5)
             }
-            if (dir == "Right") {
+            if (dir == 'Right') {
                 return (controllers[0].axes[2] > .5)
             }
-            if (dir == "Up Left") {
+            if (dir == 'Up Left') {
                 return (controllers[0].axes[5] < -.5 && (controllers[0].axes[2] < -.5))
             }
-            if (dir == "Up Right") {
+            if (dir == 'Up Right') {
                 return (controllers[0].axes[5] < -.5 && (controllers[0].axes[2] > .5))
             }
-            if (dir == "Down Left") {
+            if (dir == 'Down Left') {
                 return (controllers[0].axes[5] > .5 && (controllers[0].axes[2] < -.5))
             }
-            if (dir == "Down Right") {
+            if (dir == 'Down Right') {
                 return (controllers[0].axes[5] > .5 && (controllers[0].axes[2] > .5))
             }
         }
@@ -206,25 +206,25 @@
 			['r', 'device id', 'getInfo'],
 			['-'],
 			['h', 'When button %m.buttons pressed', 'getButton', 'X'],
-			['b', 'button %m.buttons pressed', 'getButton', 'X'],
+			['b', 'button %m.buttons pressed', 		'getButton', 'X'],
 			['-'],
-			['r', '%m.sticks stick %m.hv position', 'getStickPos', "Left", "Horizontal"],
-			['r', '%m.sticks stick %m.hvb direction', 'getStickDirection', "Left", "Both"],
+			['r', '%m.sticks stick %m.hv position', 	'getStickPos', 			'Left', 'Horizontal'],
+			['r', '%m.sticks stick %m.hvb direction', 	'getStickDirection', 	'Left', 'Both'],
 			['-'],
-			['h', 'When %m.sticks stick is facing %m.dir', 'getStickFacing', "Left", "Up"],
-			['b', '%m.sticks stick is facing %m.dir?', 'getStickFacing', "Left", "Up"], 
+			['h', 'When %m.sticks stick is facing %m.dir', 	'getStickFacing', 'Left', 'Up'],
+			['b', '%m.sticks stick is facing %m.dir?', 		'getStickFacing', 'Left', 'Up'], 
 			['-'],  
-			['r', '%m.sticks stick %m.aefe', 'getStickAF', 'Left', "Angle"],   
-			['r', "%m.sticks stick %m.axisValue", "getStick", "Left", "Direction"],
+			['r', '%m.sticks stick %m.aefe', 		'getStickAF', 'Left', 'Angle'],   
+			['r', '%m.sticks stick %m.axisValue', 	'getStick', 'Left', 'Direction'],
 		],
 		menus: {
 			buttons: buttonList,
-			sticks: ["Left", "Right"],
-			axisValue: ["Direction", "ForceX", "ForceY"],
-			hv: ["Horizontal", "Vertical"],
-			hvb: ["Horizontal", "Vertical", "Both"],
-			dir: ["Up", "Down", "Left", "Right", "Up Left", "Up Right", "Down Left", "Down Right"],
-			aefe: ["Angle", "Force"]
+			sticks: ['Left', 'Right'],
+			axisValue: ['Direction', 'ForceX', 'ForceY'],
+			hv: ['Horizontal', 'Vertical'],
+			hvb: ['Horizontal', 'Vertical', 'Both'],
+			dir: ['Up', 'Down', 'Left', 'Right', 'Up Left', 'Up Right', 'Down Left', 'Down Right'],
+			aefe: ['Angle', 'Force']
 		},
 		url: 'https://arm923i.github.io/scratch-devices/',
 			displayName: '@arm923i Gamepad'
