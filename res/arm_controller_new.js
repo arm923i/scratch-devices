@@ -213,16 +213,17 @@
 
     var descriptor = {
         blocks: [
-            ["h", "When button %m.buttons pressed", "getButton", "X"],
-            ["b", "button %m.buttons pressed", "getButton", "X"],
-            ["-", "position and direction"],
+            ['h', 'When button %m.buttons pressed', 'getButton', 'X'],
+            ['b', 'button %m.buttons pressed', 'getButton', 'X'],
+            ['-'],
             ['r', '%m.lr stick %m.hv position', 'stickpos', "Left", "Horizontal"],
             ['r', '%m.lr stick %m.hvb direction', 'stickfacing', "Left", "Both"],
-            ["--", "sticks facing"],
+            ['-'],
             ['h', 'When %m.lr stick is facing %m.dir', 'stickis', "Left", "Up"],
-            ['b', '%m.lr stick is facing %m.dir?', 'stickis', "Left", "Up"],   
+            ['b', '%m.lr stick is facing %m.dir?', 'stickis', "Left", "Up"], 
+            ['-'],  
             ['r', '%m.lr stick %m.aefe', 'aefe', 'Left', "Angle"],   
-    		["r", "%m.axisValue of %m.sticks stick", "getStick", "direction", "left"],
+    		['r', "%m.axisValue of %m.sticks stick", "getStick", "direction", "left"],
         ],
         menus: {
         	buttons: buttonList,
