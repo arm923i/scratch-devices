@@ -82,11 +82,11 @@
 	        }
 	        var value = (180 * Math.atan2(x, y) / Math.PI) + 135;
 	        ext.stickDirection[stick] = value;
-	        return value;
+	        return value.toFixed(2);
 	      case "forceX":
-	        return x*5;
+	        return x.toFixed(2)*5;
 	      case "forceY":
-	        return y*5;
+	        return y.toFixed(2)*5;
 	    }
 	  };
     
