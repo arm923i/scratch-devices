@@ -5,7 +5,7 @@ $('.scrollup').click(function(){
 
 
 var $page = $('html, body');
-$('a[href*="#"]:not([href="#]):not([href="#myCarousel"])').click(function() {
+$('a[href*="#"]:not([href="#"]):not([href="#myCarousel"])').click(function() {
     $page.animate({
         scrollTop: $($.attr(this, 'href')).offset().top
     }, 400);
