@@ -230,5 +230,5 @@
 			displayName: '@arm923i Gamepad'
     };
 
-    ScratchExtensions.register('@arm923i Gamepad', descriptor, ext, {type: 'hid', vendor:1345, product:0008});
+    ScratchExtensions.register('@arm923i Gamepad', descriptor, ext);
 })({});
