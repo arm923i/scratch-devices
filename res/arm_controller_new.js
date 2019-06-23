@@ -53,10 +53,6 @@
     window.addEventListener("gamepadconnected", connecthandler), window.addEventListener("gamepaddisconnected", disconnecthandler), haveEvents || setInterval(scangamepads, 1);
    
     ext._getStatus = function() {
-    	if (!controllers[0].connected) return {
-	      status: 1,
-	      msg: "GamePad not connected",
-	    };
         return {
             status: 2,
             msg: 'Ready'
