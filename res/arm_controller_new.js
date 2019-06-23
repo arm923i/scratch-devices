@@ -116,10 +116,10 @@
     };
 
     ext.stickpos = function(s, hv) {
-        return (controllers[0].axes[(["LeftHorizontal", "LeftVertical", "RightHorizontal", "", "", "RightVertical"].indexOf(s + hv))].toFixed(2)); // Return the value of the axes for the stick and the direction specified
+        return (controllers[0].axes[(["LeftHorizontal", "LeftVertical", "RightHorizontal", "", "", "RightVertical"].indexOf(s + hv))].toFixed(2)); 
     };
 
-    ext.stickfacing = function(s, hvb) { // Return a plaintext direction for a control stick
+    ext.stickfacing = function(s, hvb) { 
         let output = "";
         if (s == "Left") {
             if (hvb == "Both" || hvb == "Vertical") {
@@ -156,7 +156,7 @@
         return (output);
     };
 
-    ext.stickis = function(s, dir) { // Return true or false depending on if the specified stick is facing a direction
+    ext.stickis = function(s, dir) {
         if (s == "Left") {
             if (dir == "Up") {
                 return (controllers[0].axes[1] < -.5)
@@ -217,8 +217,8 @@
             ["b", "button %m.buttons pressed", "getButton", "X"],
             ['r', '%m.lr stick %m.hv position', 'stickpos', "Left", "Horizontal"],
             ['r', '%m.lr stick %m.hvb direction', 'stickfacing', "Left", "Both"],
-            ['b', '%m.lr stick is facing %m.dir?', 'stickis', "Left", "Up"],
             ['h', 'When %m.lr stick is facing %m.dir', 'stickis', "Left", "Up"],
+            ['b', '%m.lr stick is facing %m.dir?', 'stickis', "Left", "Up"],   
             ['r', '%m.lr stick %m.aefe', 'aefe', 'Left', "Angle"],   
     		["r", "%m.axisValue of %m.sticks stick", "getStick", "direction", "left"],
         ],
@@ -231,8 +231,10 @@
             hvb: ["Horizontal", "Vertical", "Both"],
             dir: ["Up", "Down", "Left", "Right", "Up Left", "Up Right", "Down Left", "Down Right"],
             aefe: ["Angle", "Force"]
-        }
+        },
+        url: 'https://arm923i.github.io/scratch-devices/',
+   		displayName: '@arm923i Gamepad'
     };
 
-    ScratchExtensions.register('Gamepad', descriptor, ext); // Register the extension so scratch can use it
+    ScratchExtensions.register('@arm923i Gamepad', descriptor, ext);
 })({});
