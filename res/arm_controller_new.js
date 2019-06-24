@@ -35,6 +35,7 @@
 
     function addgamepad(e) {
         controllers[e.index] = e;
+        controllerList[e.index] = e.index;
     }
 
     function disconnecthandler(e) {
@@ -51,9 +52,6 @@
 
     function scangamepads() {
         for (var e = navigator.getGamepads ? navigator.getGamepads() : navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : [], n = 0; n < e.length; n++) e[n] && (e[n].index in controllers ? controllers[e[n].index] = e[n] : addgamepad(e[n]));
-        for (var j = 0; j < e.length; j++){
-        	controllerList[j] = e[n].index;
-        }
     }
     window.addEventListener('gamepadconnected', connecthandler), window.addEventListener('gamepaddisconnected', disconnecthandler), haveEvents || setInterval(scangamepads, 1);
    
