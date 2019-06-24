@@ -35,7 +35,7 @@
 
     function addgamepad(e) {
         controllers[e.index] = e;
-        controllerList[e.index] = e.index;
+        controllerList[e.index] = e.index+1;
     }
 
     function disconnecthandler(e) {
@@ -71,9 +71,10 @@
 
     var dz = 8000 / 32767; // Deadzone
 
-     ext.getButton = function(name) {
+     ext.getButton = function(device, name) {
+     	var devices = parseInt(device)-1;
 	    var index = buttonNames[name];
-	    var button = controllers[0].buttons[index];
+	    var button = controllers[devices].buttons[index];
 	    return button.pressed;
 	  };
 
@@ -209,7 +210,7 @@
 			['r', 'device id %m.devices', 'getInfo'],
 			['-'],
 			['h', 'When button %m.buttons pressed', 		'getButton', 	'X'],
-			['b', 'button %m.buttons pressed', 				'getButton', 	'X'],
+			['b', 'GP# %m.devices button %m.buttons pressed', '1', 'getButton', 	'X'],
 			['-'],
 			['r', '%m.sticks stick %m.hv position', 		'getStickPos', 			'Left', 'Horizontal'],
 			['r', '%m.sticks stick %m.hvb direction', 		'getStickDirection', 	'Left', 'Both'],
