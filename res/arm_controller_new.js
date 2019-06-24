@@ -214,17 +214,17 @@
 		blocks: [
 			['r', 'device id %m.devices', 'getInfo'],
 			['-'],
-			['h', 'When GP #%m.devices button %m.buttons pressed', 	'getButton', '1', 'X'],
+			['h', 'When GP# %m.devices button %m.buttons pressed', 	'getButton', '1', 'X'],
 			['b', 'GP# %m.devices button %m.buttons pressed', 'getButton', '1',	'X'],
 			['-'],
-			['r', 'GP #%m.devices %m.sticks stick %m.hv position', 	'getStickPos',  '1', 'Left', 'Horizontal'],
-			['r', 'GP #%m.devices %m.sticks stick %m.hvb direction', 'getStickDirection', '1', 	'Left', 'Both'],
+			['r', 'GP# %m.devices %m.sticks stick %m.hv pos', 	'getStickPos',  '1', 'Left', 'Horizontal'],
+			['r', 'GP# %m.devices %m.sticks stick %m.hvb dir', 'getStickDirection', '1', 	'Left', 'Both'],
 			['-'],
-			['h', 'When GP #%m.devices %m.sticks stick is facing %m.dir', 	'getStickFacing', '1', 	'Left', 'Up'],
-			['b', 'GP #%m.devices %m.sticks stick is facing %m.dir?',	'getStickFacing', '1',	'Left', 'Up'], 
+			['h', 'When GP# %m.devices %m.sticks stick fac %m.dir', 	'getStickFacing', '1', 	'Left', 'Up'],
+			['b', 'GP# %m.devices %m.sticks stick is facing %m.dir?',	'getStickFacing', '1',	'Left', 'Up'], 
 			['-'],  
-			['r', 'GP #%m.devices %m.sticks stick %m.aefe',	'getStickAF', '1',	'Left', 'Angle'],   
-			['r', 'GP #%m.devices %m.sticks stick %m.axisValue', 'getStick', '1',	'Left', 'Direction']
+			['r', 'GP# %m.devices %m.sticks stick %m.aefe',	'getStickAF', '1',	'Left', 'Angle'],   
+			['r', 'GP# %m.devices %m.sticks stick %m.axisValue', 'getStick', '1',	'Left', 'Direction']
 		],
 		menus: {
 			devices: 	controllerList,
