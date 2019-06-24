@@ -210,7 +210,7 @@
 			['r', 'device id %m.devices', 'getInfo'],
 			['-'],
 			['h', 'When button %m.buttons pressed', 		'getButton', 	'X'],
-			['b', 'GP# %m.devices button %m.buttons pressed', '1', 'getButton', 	'X'],
+			['b', 'GP# %m.devices button %m.buttons pressed', 'getButton', '1',	'X'],
 			['-'],
 			['r', '%m.sticks stick %m.hv position', 		'getStickPos', 			'Left', 'Horizontal'],
 			['r', '%m.sticks stick %m.hvb direction', 		'getStickDirection', 	'Left', 'Both'],
