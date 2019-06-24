@@ -71,10 +71,11 @@
 
     var dz = 8000 / 32767; // Deadzone
 
-     ext.getButton = function(device, name) {
-     	var devices = parseInt(device)-1;
+     ext.getButton = function(indx, name) {
+     	var indxs = parseInt(indx)-1;
+     	console.log(indxs);
 	    var index = buttonNames[name];
-	    var button = controllers[devices].buttons[index];
+	    var button = controllers[indxs].buttons[index];
 	    return button.pressed;
 	  };
 
