@@ -209,7 +209,7 @@
 		blocks: [
 			['r', 'device id %m.devices', 'getInfo'],
 			['-'],
-			['h', 'When button %m.buttons pressed', 		'getButton', 	'X'],
+			['h', 'When GP# %m.devices button %m.buttons pressed', 		'getButton', '1', 'X'],
 			['b', 'GP# %m.devices button %m.buttons pressed', 'getButton', '1',	'X'],
 			['-'],
 			['r', '%m.sticks stick %m.hv position', 		'getStickPos', 			'Left', 'Horizontal'],
