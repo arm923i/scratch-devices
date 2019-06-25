@@ -214,18 +214,18 @@
 
     var descriptor = {
 		blocks: [
-			['r', 'device %m.devices id', 'getInfo', '1'],
+			['r', 'GamePad (GP)# %m.devices id', 'getInfo', '1'],
 			['-'],
 			['h', 'When GP# %m.devices button %m.buttons pressed', 	'getButton', '1', 'X'],
-			['b', 'GP# %m.devices button %m.buttons pressed', 'getButton', '1',	'X'],
+			['b', 'GP# %m.devices button %m.buttons pressed',        'getButton', '1',	'X'],
 			['-'],
-			['r', 'GP# %m.devices %m.sticks stick %m.hv position', 	'getStickPos',  '1', 'Left', 'Horizontal'],
+			['r', 'GP# %m.devices %m.sticks stick %m.hv position', 	 'getStickPos',  '1', 'Left', 'Horizontal'],
 			['r', 'GP# %m.devices %m.sticks stick %m.hvb direction', 'getStickDirection', '1', 	'Left', 'Both'],
 			['-'],
 			['h', 'When GP# %m.devices %m.sticks stick is facing %m.dir', 	'getStickFacing', '1', 	'Left', 'Up'],
-			['b', 'GP# %m.devices %m.sticks stick is facing %m.dir?',	'getStickFacing', '1',	'Left', 'Up'], 
+			['b', 'GP# %m.devices %m.sticks stick is facing %m.dir?',	    'getStickFacing', '1',	'Left', 'Up'], 
 			['-'],  
-			['r', 'GP# %m.devices %m.sticks stick %m.aefe',	'getStickAF', '1',	'Left', 'Angle'],   
+			['r', 'GP# %m.devices %m.sticks stick %m.aefe',	     'getStickAF', '1',	'Left', 'Angle'],   
 			['r', 'GP# %m.devices %m.sticks stick %m.axisValue', 'getStick', '1',	'Left', 'Direction']
 		],
 		menus: {
@@ -233,9 +233,9 @@
 			buttons: 	buttonList,
 			sticks: 	['Left', 'Right'],
 			axisValue: 	['Direction', 'ForceX', 'ForceY'],
-			hv: 		['Horizontal', 'Vertical'],
-			hvb: 		['Horizontal', 'Vertical', 'Both'],
-			dir: 		['Up', 'Down', 'Left', 'Right', 'Up Left', 'Up Right', 'Down Left', 'Down Right'],
+			hv: 		['X', 'Y'],
+			hvb: 		['X', 'Y', 'X+Y'],
+			dir: 		['↑', 'Down', 'Left', 'Right', 'Up Left', 'Up Right', 'Down Left', 'Down Right'],
 			aefe: 		['Angle', 'Force']
 		},
 		url: 'https://arm923i.github.io/scratch-devices/',
