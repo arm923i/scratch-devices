@@ -25,16 +25,16 @@
        ['start', 9],
        ['left stick', 10],
        ['right stick', 11]
-     ];
+    ];
    
-     var buttonList = [];
-     var buttonNames = {};
-   
-     buttons.forEach(function(d) {
-       var name = d[0], index = d[1];
-       buttonList.push(name);
-       buttonNames[name] = index;
-     });
+	 var buttonList = [];
+	 var buttonNames = {};
+
+	 buttons.forEach(function(d) {
+	   var name = d[0], index = d[1];
+	   buttonList.push(name);
+	   buttonNames[name] = index;
+	 });
 
     function connecthandler(e) {
         addgamepad(e.gamepad);
@@ -93,6 +93,8 @@
 	      case 'Left':  x = controllers[indxs].axes[0]; y = -controllers[indxs].axes[1]; break;
 	      case 'Right': x = controllers[indxs].axes[5]; y = -controllers[indxs].axes[2]; break;
 	    }
+	    if (-dz < x && x < dz) x = 0;
+        if (-dz < y && y < dz) y = 0;
 	    switch (what) {
 	      case 'Direction': 
 	      	var value = (180 * Math.atan2(x, y) / Math.PI) + 135; 
