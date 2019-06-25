@@ -64,6 +64,10 @@
     window.addEventListener('gamepadconnected', connecthandler), window.addEventListener('gamepaddisconnected', disconnecthandler), haveEvents || setInterval(scangamepads, 1);
    
     ext._getStatus = function() {
+	    if (controllers.length == 0) return {
+	      status: 1,
+	      msg: "Plug in a device and press any button",
+	    };    	
         return {
             status: 2,
             msg: 'Ready'
@@ -97,7 +101,7 @@
         if (-dz < y && y < dz) y = 0;
 	    switch (what) {
 	      case 'Direction': 
-	      	var value = (180 * Math.atan2(x, y) / Math.PI) + 135; 
+	      	var value = (180 * Math.atan2(x, y) / Math.PI); 
 	      	ext.stickDirection[stick] = value;
 	        return value.toFixed(2);
 	      break;
@@ -123,7 +127,7 @@
 
     ext.getStickPosition = function(indx, s, hv) {
     	var indxs = parseInt(indx)-1;
-        return (controllers[indxs].axes[(['LeftHorizontal', 'LeftVertical', 'RightHorizontal', '', '', 'RightVertical'].indexOf(s + hv))].toFixed(2)); 
+        return (controllers[indxs].axes[(['LeftX', 'LeftY', 'RightX', '', '', 'RightY'].indexOf(s + hv))].toFixed(2)); 
     };
 
     ext.getStickDirection = function(indx, s, hvb) { 
