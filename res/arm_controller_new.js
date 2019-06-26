@@ -1,5 +1,5 @@
 /*  
-  * Software Modules to support additional input devices in the tool environment Scratch
+  * Software Modules to support additional input devices in the tool environment Scratch.
   * GamePads Controller Extension, written in JavaScript language 
   * ©2019 by @arm923i https://github.com/arm923i/ 
 */
