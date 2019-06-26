@@ -1,3 +1,9 @@
+/*  
+  * Software Modules to support additional input devices in the tool environment Scratch.
+  * Wheel Gamepad Controller Extension, written in JavaScript language 
+  * ©2019 by @arm923i https://github.com/arm923i/ 
+*/
+
 (function(ext) {
 
   var buttons = [
@@ -5,12 +11,12 @@
     ["B", 1],
     ["X", 2],
     ["Y", 3],
-    ["left petal", 4],
-    ["right petal", 5],
-    ["left bottom", 6],
-    ["right bottom", 7],
-    ["select", 8],
-    ["start", 9],
+    ["Left petal", 4],
+    ["Right petal", 5],
+    ["Left bottom", 6],
+    ["Right bottom", 7],
+    ["Select", 8],
+    ["Start", 9],
   ];
 
   var buttonMenu = [];
@@ -55,33 +61,33 @@
     return true;
   }
 
-  ext.getButton = function(name) {
+  ext.getButtonPressing = function(name) {
     var index = buttonNames[name];
     var button = ext.gamepad.buttons[index];
     return button.pressed;
   };
 
-  ext.getStick = function(stick) {
+  ext.getStickState = function(stick) {
     var x;
     switch (stick) {
-      case "wheel": x = ext.gamepad.axes[0]; break;			
-      case "pedals": x = -ext.gamepad.axes[1]; break;
+      case "Wheel": x = ext.gamepad.axes[0]; break;			
+      case "Pedals": x = -ext.gamepad.axes[1]; break;
     }
 	switch (stick) {
-      case "wheel": return x.toFixed(2)*90+90;			
-      case "pedals": return x.toFixed(2)*5;
+      case "Wheel": return x.toFixed(2)*90+90;			
+      case "Pedals": return x.toFixed(2)*5;
     }
   };
 
   var descriptor = {
     blocks: [
       ["b", "modules installed?", "installed"],
-      ["b", "button %m.button pressed", "getButton", "X"],
-      ["r", "%m.stick direction", "getStick", "wheel"],
+      ["b", "button %m.button pressed", "getButtonPressing", "X"],
+      ["r", "%m.stick direction", "getStickState", "Wheel"],
     ],
     menus: {
       button: buttonMenu,
-      stick: ["wheel","pedals"],
+      stick: ["Wheel","Pedals"],
     },
     url: 'https://arm923i.github.io/scratch-devices/'
   };
