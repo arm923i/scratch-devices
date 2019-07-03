@@ -74,9 +74,117 @@
 		device.send(new Uint8Array([CMD_PING]).buffer);
 	}
 
+	function processInput(inputData) {
+    lastReadTime = Date.now();
+    for (var i=0; i<inputData.length; i++) {
+      if (parsingCmd) {
+        storedInputData[bytesRead++] = inputData[i];
+        if (bytesRead === waitForData) {
+          parsingCmd = false;
+          processCmd();
+        }
+      } else {
+        switch (inputData[i]) {
+        case CMD_PING:
+          parsingCmd = true;
+          command = inputData[i];
+          waitForData = 2;
+          bytesRead = 0;
+          break;
+        case CMD_ANALOG_READ:
+          parsingCmd = true;
+          command = inputData[i];
+          waitForData = 6;
+          bytesRead = 0;
+          break;
+        }
+      }
+    }
+  }
+
+  function processCmd() {
+    switch (command) {
+    case CMD_PING:
+      if (storedInputData[0] === CMD_PING_CONFIRM) {
+        connected = true;
+        clearTimeout(watchdog);
+        watchdog = null;
+        clearInterval(poller);
+        poller = setInterval(function() {
+          if (Date.now() - lastReadTime > 5000) {
+            connected = false;
+            device.set_receive_handler(null);
+            device.close();
+            device = null;
+            clearInterval(poller);
+            poller = null;
+          }
+        }, 2000);
+      }
+      break;
+    case CMD_ANALOG_READ:
+      analogInputData = storedInputData.slice(0, 6);
+      break;
+    }
+  }
+	ext.analogRead = function(pin) {
+	    return analogRead(pin);
+	  };
 
 
+	  ext.whenAnalogRead = function(pin, op, val) {
+	    if (ANALOG_PINS.indexOf(pin) === -1) return
+	    if (op == '>')
+	      return analogRead(pin) > val;
+	    else if (op == '<')
+	      return analogRead(pin) < val;
+	    else if (op == '=')
+	      return analogRead(pin) == val;
+	    else
+	      return false;
+	  };
 
-	ScratchExtensions.register('Arduino', descriptor, ext, {type:'serial'});
+
+	ext._getStatus = function() {
+		if (connected) return {status: 2, msg: 'Arduino connected'};
+		else return {status: 1, msg: 'Arduino disconnected'};
+	};
+
+	ext._deviceConnected = function(dev) {
+		potentialDevices.push(dev);
+		if (!device) tryNextDevice();
+	};
+
+	ext._deviceRemoved = function(dev) {
+		console.log('device removed');
+		pinModes = new Uint8Array(12);
+		if (device != dev) return;
+		device = null;
+	};
+
+	ext._shutdown = function() {
+		// TODO: Bring all pins down
+		if (device) device.close();
+		device = null;
+	};
+
+
+	var blocks = [
+		['h', 'when humidity %m.ops %n', 'AnalogRead', '>', 800],
+		['b', 'humidity %m.ops %n', 'analogRead',  '>', 800],	
+		['r', 'humidity', 'analogRead']
+	];
+
+	var menus = {
+		ops: ['>', '=', '<']
+	};
+
+	var descriptor = {
+		blocks: blocks,
+		menus: menus,
+		url: 'https://arm923i.github.io/scratch-devices/'
+	};
+
+	ScratchExtensions.register('Arduino humidity', descriptor, ext, {type:'serial'});
 
 })({});
