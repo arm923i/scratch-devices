@@ -5,7 +5,7 @@ const byte CMD_ANALOG_READ = 0x78;
 byte analogReadVals[6];
 byte pinModes[12];
 
-const int rainPin = A0;
+const int humidityPin = A0;
 const int thresholdValue = 500;
  
 void setup(){
@@ -14,7 +14,7 @@ void setup(){
 }
  
 void loop() {
-  int sensorValue = analogRead(rainPin);
+  int sensorValue = analogRead(humidityPin);
   Serial.print(sensorValue);
   delay(1000);
 }
