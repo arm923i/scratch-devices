@@ -12,7 +12,9 @@
 	var storedInputData = new Uint8Array(4096);
 
 	var CMD_PIN_MODE = 0x75,
-	    CMD_ANALOG_READ = 0x78;
+	    CMD_ANALOG_READ = 0x78,
+	    CMD_PING = 0x7C,
+    	CMD_PING_CONFIRM = 0x7D;
 
 	var ANALOG_PINS = 'A0';
 
@@ -25,10 +27,7 @@
 
 	var digitalInputData = new Uint8Array(12),
 	    pinModes = new Uint8Array(12),
-	    analogInputData = new Uint8Array(6),
-	    accelInputData = [0,0],
-	    imuEventData = new Uint8Array(3),
-	    servoVals = new Uint8Array(12);
+	    analogInputData = new Uint8Array(6);
 
 	var device = null;
 
@@ -127,23 +126,57 @@
       break;
     }
   }
-	ext.analogRead = function(pin) {
-	    return analogRead(pin);
+	ext.analogRead = function() {
+	    return analogRead('A0');
 	  };
 
+	  ext.whenanalogRead = function(op,val) {
+	  	var curval = analogRead('A0'),
+	  		fval = val;
 
-	  ext.whenAnalogRead = function(pin, op, val) {
-	    if (ANALOG_PINS.indexOf(pin) === -1) return
-	    if (op == '>')
-	      return analogRead(pin) > val;
-	    else if (op == '<')
-	      return analogRead(pin) < val;
-	    else if (op == '=')
-	      return analogRead(pin) == val;
-	    else
-	      return false;
+	  	switch(op) {
+            case '>': 
+            	if (curval > val){
+            		return true;
+            	}
+            break;
+            case '=': 
+            	if (curval == val){
+            		return true;
+            	}
+            break;
+            case '<': 
+            	if (curval < val){
+            		return true;
+            	}
+            break;
+        }
+	    return false;
 	  };
 
+	ext.ifanalogRead = function(op,val) {
+	  	var curval = analogRead('A0'),
+	  		fval = val;
+
+	  	switch(op) {
+            case '>': 
+            	if (curval > val){
+            		return true;
+            	}
+            break;
+            case '=': 
+            	if (curval == val){
+            		return true;
+            	}
+            break;
+            case '<': 
+            	if (curval < val){
+            		return true;
+            	}
+            break;
+        }
+	    return false;
+	  };
 
 	ext._getStatus = function() {
 		if (connected) return {status: 2, msg: 'Arduino connected'};
@@ -170,8 +203,8 @@
 
 
 	var blocks = [
-		['h', 'when humidity %m.ops %n', 'AnalogRead', '>', 800],
-		['b', 'humidity %m.ops %n', 'analogRead',  '>', 800],	
+		['h', 'when humidity %m.ops %n', 'whenanalogRead', '>', 800],
+		['b', 'humidity %m.ops %n', 'ifanalogRead',  '>', 800],	
 		['r', 'humidity', 'analogRead']
 	];
 
