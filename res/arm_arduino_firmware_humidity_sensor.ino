@@ -1,8 +1,10 @@
+const byte CMD_ANALOG_WRITE = 0x74;
 const byte CMD_PIN_MODE = 0x75;
 const byte CMD_ANALOG_READ = 0x78;
 
 
 byte analogReadVals[6];
+byte digitalReadVals[12];
 byte pinModes[12];
 
 const int humidityPin = A0;
@@ -19,7 +21,8 @@ void setup(){
 }
  
 void loop() {
-
+  byte i, val;
+  
   int sensorValue = analogRead(humidityPin);
 
   for (i=0; i<=5; i++) {
